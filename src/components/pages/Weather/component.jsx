@@ -2,10 +2,10 @@ import React from 'react'
 
 import StandardLayout from '@/components/layouts/Standard'
 
-const LandingPage = () => (
+const WeatherPage = () => (
   <StandardLayout>
-    Page content should be there
+    WeatherPage content here
   </StandardLayout>
 )
 
-export default LandingPage
+export default WeatherPage

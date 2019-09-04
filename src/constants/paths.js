@@ -1,3 +1,3 @@
 // Place here Paths constants (router paths)
 
-export const LANDING_PAGE_PATH = '/'
+export const SETUP_PAGE_PATH = '/'

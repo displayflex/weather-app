@@ -5,6 +5,6 @@ import Header from './styles'
 
 export default () => (
   <Header>
-    Initial Application
+    <h1>Weather App</h1>
   </Header>
 )
