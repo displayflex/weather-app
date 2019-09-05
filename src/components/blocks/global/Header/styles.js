@@ -14,5 +14,7 @@ export default styled.header`
 
   h1 {
     font-size: ${props => props.theme.fontSizes.weryBig};
+    color: ${props => props.theme.colors.fontLight};
+    margin-bottom: 0;
   }
 `
