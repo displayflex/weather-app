@@ -9,11 +9,11 @@ export default {
   colors: {
     background: '#ffffff',
     backgroundDark: '#000',
-    primary: '#fe2419',
-    primaryDark: '#d4251c',
-    secondary: '#26499d',
-    secondaryLight: 'rgba(38, 73, 157, 0.73)',
-    font: '#222222',
+    primary: '#1890ff',
+    primaryLight: '#40a9ff',
+    secondary: '#fff',
+    secondaryDark: '#d9d9d9', // @todo change names
+    font: 'rgba(0,0,0,0.65)',
     fontLight: '#ffffff',
   },
   fontSizes: {
