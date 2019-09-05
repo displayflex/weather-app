@@ -1,16 +1,11 @@
 import React from 'react'
 
 import StandardLayout from '@/components/layouts/Standard'
-import CitySearch from '@/components/forms/CitySearch'
-import ServiceSelect from '@/components/forms/ServiceSelect'
+import SetupPanel from '@/components/forms/SetupPanel'
 
 const SetupPage = () => (
   <StandardLayout>
-    <form>
-      <CitySearch />
-      <ServiceSelect />
-      <button>Show weather</button>
-    </form>
+    <SetupPanel />
   </StandardLayout>
 )
 

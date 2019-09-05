@@ -14,7 +14,7 @@ export default {
     secondary: '#26499d',
     secondaryLight: 'rgba(38, 73, 157, 0.73)',
     font: '#222222',
-    fontLight: '#ffffff', // FIXME: repeats?
+    fontLight: '#ffffff',
   },
   fontSizes: {
     werySmall: '12px',
