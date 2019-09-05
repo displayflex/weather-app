@@ -1,14 +1,11 @@
 import React from 'react'
 
 import StandardLayout from '@/components/layouts/Standard'
-import CityLabel from '@/components/blocks/CityLabel'
-import WeatherWidget from '@/components/blocks/WeatherWidget'
+import WeatherPanel from '@/components/blocks/WeatherPanel'
 
 const WeatherPage = () => (
   <StandardLayout>
-    <CityLabel />
-    <WeatherWidget />
-    <button type="button">Change Setup</button>
+    <WeatherPanel />
   </StandardLayout>
 )
 
