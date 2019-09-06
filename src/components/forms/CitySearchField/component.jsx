@@ -1,6 +1,6 @@
 import React from 'react'
 
-import SecondaryButton from '@/components/base/SecondaryButton'
+import SecondaryButton from '@/components/blocks/global/SecondaryButton'
 import CitySearchField from './styles'
 
 export default () => (

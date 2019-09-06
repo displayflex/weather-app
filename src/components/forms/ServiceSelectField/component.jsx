@@ -1,13 +1,18 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-import ServiceSelectField from './styles'
-import Select from '@/components/base/Select'
+import Wrapper from './styles'
+import Select from '@/components/blocks/global/Select'
 
-export default ({ services }) => {
+const ServiceSelectField = ({ services }) => {
   const { Option } = Select
 
+  if (services.length === 0) {
+    return <p>There are no services</p>
+  }
+
   return (
-    <ServiceSelectField>
+    <Wrapper>
       <label htmlFor="service">Weather Service:</label>
       <Select id="service" defaultValue={services[0].id}>
         {services.map(service => (
@@ -16,6 +21,17 @@ export default ({ services }) => {
           </Option>
         ))}
       </Select>
-    </ServiceSelectField>
+    </Wrapper>
   )
 }
+
+ServiceSelectField.propTypes = {
+  services: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    }).isRequired
+  ).isRequired,
+}
+
+export default ServiceSelectField
