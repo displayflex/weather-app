@@ -6,7 +6,6 @@ export default styled(Button)`
   border-color: ${props => props.theme.colors.primary};
   color: ${props => props.theme.colors.fortPrimary};
   text-transform: uppercase;
-  width: 100%;
   height: 48px;
   font-size: ${props => props.theme.fontSizes.normal};
 

@@ -26,5 +26,12 @@ export default createGlobalStyle`
     padding-right: ${props => props.theme.unit.double};
     padding-top: ${props => props.theme.unit.quadriple};
     padding-bottom: ${props => props.theme.unit.quadriple};
+
+    @media (min-width: ${props => props.theme.width.tablet}) {
+      padding-left: ${props => props.theme.unit.eight};
+      padding-right: ${props => props.theme.unit.eight};
+      padding-top: ${props => props.theme.unit.eight};
+      padding-bottom: ${props => props.theme.unit.eight};
+    }
   }
 `

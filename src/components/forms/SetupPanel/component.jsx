@@ -25,9 +25,11 @@ const SetupPanel = () => {
     <Form>
       <CitySearchField />
       <ServiceSelectField services={services} />
-      <PrimaryButton icon="cloud-upload">Show weather</PrimaryButton>
+      <PrimaryButton className="result-btn" icon="cloud-upload">Show weather</PrimaryButton>
     </Form>
   )
 }
 
 export default SetupPanel
+
+// @todo className="result-btn" ???

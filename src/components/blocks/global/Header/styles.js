@@ -13,7 +13,7 @@ export default styled.header`
   align-items: center;
 
   h1 {
-    font-size: ${props => props.theme.fontSizes.weryBig};
+    font-size: ${props => props.theme.fontSizes.veryBig};
     color: ${props => props.theme.colors.fortPrimary};
     margin-bottom: 0;
   }

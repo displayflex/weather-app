@@ -6,7 +6,6 @@ export default styled(Button)`
   border-color: ${props => props.theme.colors.secondary};
   color: ${props => props.theme.colors.fortSecondary};
   text-transform: uppercase;
-  width: 100%;
 
   &:hover {
     background-color: ${props => props.theme.colors.secondaryLight};

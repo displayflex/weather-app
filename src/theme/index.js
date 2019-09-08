@@ -22,7 +22,7 @@ export default {
     small: '14px',
     normal: '16px',
     big: '20px',
-    weryBig: '24px',
+    veryBig: '24px',
   },
   letterSpacing: {
     normal: 'normal',
@@ -34,4 +34,11 @@ export default {
     bold: 700,
   },
   fontFamily: ['Lato, "Helvetica Neue", Arial'],
+  width: {
+    mobile: '320px',
+    tablet: '768px',
+    desktop: '992px',
+    desktopLarge: '1200px',
+    mobileOnly: '767px',
+  },
 }
