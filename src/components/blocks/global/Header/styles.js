@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export default styled.header`
   height: 64px;
   background-color: ${props => props.theme.colors.backgroundDark};
-  color: ${props => props.theme.colors.fontLight};
+  color: ${props => props.theme.colors.fortPrimary};
   padding-left: ${props => props.theme.unit.quadriple};
   padding-right: ${props => props.theme.unit.quadriple};
   padding-top: ${props => props.theme.unit.double};
@@ -14,7 +14,7 @@ export default styled.header`
 
   h1 {
     font-size: ${props => props.theme.fontSizes.weryBig};
-    color: ${props => props.theme.colors.fontLight};
+    color: ${props => props.theme.colors.fortPrimary};
     margin-bottom: 0;
   }
 `

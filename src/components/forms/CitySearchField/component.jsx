@@ -1,12 +1,15 @@
 import React from 'react'
 
+import CitySearchInput from '@/components/forms/CitySearchInput'
 import SecondaryButton from '@/components/blocks/global/SecondaryButton'
-import CitySearchField from './styles'
+import Wrapper from './styles'
 
-export default () => (
-  <CitySearchField>
+const CitySearchField = () => (
+  <Wrapper>
     <label htmlFor="city">Your City:</label>
-    <input type="text" id="city" />
-    <SecondaryButton>Find your city</SecondaryButton>
-  </CitySearchField>
+    <CitySearchInput />
+    <SecondaryButton icon="search">Find your city</SecondaryButton>
+  </Wrapper>
 )
+
+export default CitySearchField

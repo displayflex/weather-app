@@ -1,9 +1,9 @@
 import React from 'react'
 
-import Form from './styles'
 import CitySearchField from '@/components/forms/CitySearchField'
 import ServiceSelectField from '@/components/forms/ServiceSelectField'
 import PrimaryButton from '@/components/blocks/global/PrimaryButton'
+import Form from './styles'
 
 // @todo move to constants...
 // export const OPEN_WEARHER_SERVICE = 'OPEN_WEARHER_SERVICE'
@@ -25,7 +25,7 @@ const SetupPanel = () => {
     <Form>
       <CitySearchField />
       <ServiceSelectField services={services} />
-      <PrimaryButton>Show weather</PrimaryButton>
+      <PrimaryButton icon="cloud-upload">Show weather</PrimaryButton>
     </Form>
   )
 }
