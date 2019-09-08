@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { Component } from 'react'
 
 import AutoComplete from './styles'
 
 const { Option } = AutoComplete
 
-class CitySearchInput extends React.Component {
+class CitySearchInput extends Component {
   state = {
     result: [],
   }
@@ -14,7 +14,9 @@ class CitySearchInput extends React.Component {
     if (!value || value.length <= 3) {
       result = []
     } else {
-      result = ['London', 'Moscow', 'New York'].filter(city => city.indexOf(value) !== -1)
+      result = ['London', 'Moscow', 'New York'].filter(
+        city => city.toLowerCase().indexOf(value.toLowerCase()) !== -1
+      )
     }
     this.setState({ result })
   }
