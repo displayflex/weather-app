@@ -2,33 +2,30 @@ import React, { Component } from 'react'
 
 import CitySearchInput from '@/components/forms/CitySearchInput'
 import SecondaryButton from '@/components/blocks/global/SecondaryButton'
-import { loadYandexScript, getGeolocationData, fetchApixuData } from '@/utils/services'
+import { getGeolocationData } from '@/utils/services'
 import Wrapper from './styles'
 
 class CitySearchField extends Component {
   state = {
-    isScriptLoaded: false,
-  }
-
-  componentDidMount () {
-    const scriptSuccesLoadHandler = () => {
-      this.setState({ isScriptLoaded: true })
-    }
-
-    const scriptErrorLoadHandler = () => {
-      // @todo
-    }
-
-    loadYandexScript(scriptSuccesLoadHandler, scriptErrorLoadHandler)
+    coords: {
+      longitude: 0,
+      latitude: 0,
+    },
   }
 
   handleFindCityClick = () => {
-    if (this.state.isScriptLoaded) {
-      const geolocationData = getGeolocationData()
-      // @todo
-      console.log(geolocationData)
-      // fetchApixuData(geolocationData.latitude, geolocationData.longitude)
-    }
+    getGeolocationData().then(
+      result => {
+        this.setState(state => ({
+          ...state,
+          coords: {
+            longitude: result.geoObjects.position[0],
+            latitude: result.geoObjects.position[1],
+          },
+        }))
+      },
+      err => console.log('error', err) // @todo what is here??
+    )
   }
 
   render () {
@@ -39,7 +36,6 @@ class CitySearchField extends Component {
         <SecondaryButton
           icon="search"
           onClick={this.handleFindCityClick}
-          disabled={!this.state.isScriptLoaded}
         >
           Find your city
         </SecondaryButton>
