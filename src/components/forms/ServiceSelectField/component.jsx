@@ -1,11 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Wrapper from './styles'
 import Select from '@/components/blocks/global/Select'
+import Wrapper from './styles'
 
-const ServiceSelectField = ({ services }) => {
+const ServiceSelectField = ({ services, changeService }) => {
   const { Option } = Select
+
+  const handleServiceChange = value => {
+    changeService({ id: value })
+  }
 
   if (services.length === 0) {
     return <p>There are no services</p>
@@ -14,7 +18,11 @@ const ServiceSelectField = ({ services }) => {
   return (
     <Wrapper>
       <label htmlFor="service">Weather Service:</label>
-      <Select id="service" defaultValue={services[0].id}>
+      <Select
+        id="service"
+        defaultValue={services[0].id}
+        onChange={value => handleServiceChange(value)}
+      >
         {services.map(service => (
           <Option key={service.id} value={service.id}>
             {service.name}
@@ -32,6 +40,7 @@ ServiceSelectField.propTypes = {
       name: PropTypes.string.isRequired,
     }).isRequired
   ).isRequired,
+  changeService: PropTypes.func.isRequired,
 }
 
 export default ServiceSelectField

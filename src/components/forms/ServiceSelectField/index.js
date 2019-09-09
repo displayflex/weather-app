@@ -1,3 +1,3 @@
-import ServiceSelectField from './component'
+import ServiceSelectField from './container'
 
 export default ServiceSelectField

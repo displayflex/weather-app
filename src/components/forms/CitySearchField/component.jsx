@@ -44,6 +44,4 @@ class CitySearchField extends Component {
   }
 }
 
-// @todo disabled button or do not render button?
-
 export default CitySearchField
