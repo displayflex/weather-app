@@ -3,7 +3,6 @@ import { APIXU, OPEN_WEATHER, YANDEX } from '@/constants/services'
 
 export const getGeolocationData = () => {
   return new Promise((resolve, reject) => {
-    // @todo reject?
     window.ymaps.ready(() => {
       window.ymaps.geolocation
         .get({
@@ -14,54 +13,63 @@ export const getGeolocationData = () => {
           result => {
             resolve(result)
           },
-          err => console.log('error', err) // @todo what is here??
+          error => reject(error)
         )
     })
   })
 }
 
-export const buildApixuUrl = (latitude, longitude) => {
-  const apikey = process.env.REACT_APP_API_KEY_APIXU
+const buildServiceUrl = (service, latitude, longitude) => {
+  let apikey
 
-  return [`${URL_APIXU}/v1/current.json`, `?key=${apikey}`, `&q=${latitude}`, `,${longitude}`].join(
-    ''
-  )
-}
-
-export const buildOpenWeatherUrl = (latitude, longitude) => {
-  const apikey = process.env.REACT_APP_API_KEY_OPENWEATHER
-
-  return [
-    `${URL_OPENWEATHER}/data/2.5/weather`,
-    `?lat=${latitude}`,
-    `&lon=${longitude}`,
-    `&appid=${apikey}`,
-  ].join('')
-}
-
-export const buildYandexUrl = () => {
-  const apikey = process.env.REACT_APP_API_KEY_YANDEX
-
-  return `${URL_YANDEX}/2.1/?lang=en_RU&amp;apikey=${apikey}`
-}
-
-export const getServiceUrl = (service, latitude = '', longitude = '') => {
   switch (service) {
     case APIXU:
-      return buildApixuUrl(latitude, longitude)
+      apikey = process.env.REACT_APP_API_KEY_APIXU
+
+      return [
+        `${URL_APIXU}/v1/current.json`,
+        `?key=${apikey}`,
+        `&q=${latitude}`,
+        `,${longitude}`,
+      ].join('')
 
     case OPEN_WEATHER:
-      return buildOpenWeatherUrl(latitude, longitude)
+      apikey = process.env.REACT_APP_API_KEY_OPENWEATHER
+
+      return [
+        `${URL_OPENWEATHER}/data/2.5/weather`,
+        `?lat=${latitude}`,
+        `&lon=${longitude}`,
+        `&appid=${apikey}`,
+      ].join('')
 
     case YANDEX:
-      return buildYandexUrl()
+      apikey = process.env.REACT_APP_API_KEY_YANDEX
+
+      return `${URL_YANDEX}/2.1/?lang=en_RU&amp;apikey=${apikey}`
 
     default:
       return null
   }
 }
 
-export const fetchServiceData = async (service, latitude = '', longitude = '') => {
+export const getServiceUrl = (service, latitude, longitude) => {
+  switch (service) {
+    case APIXU:
+      return buildServiceUrl(APIXU, latitude, longitude)
+
+    case OPEN_WEATHER:
+      return buildServiceUrl(OPEN_WEATHER, latitude, longitude)
+
+    case YANDEX:
+      return buildServiceUrl(YANDEX)
+
+    default:
+      return null
+  }
+}
+
+export const fetchServiceData = async (service, latitude, longitude) => {
   const url = getServiceUrl(service, latitude, longitude)
 
   if (!url) {

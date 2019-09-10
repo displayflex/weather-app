@@ -1,47 +1,43 @@
-import React, { Component } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 
 import CitySearchInput from '@/components/forms/CitySearchInput'
 import SecondaryButton from '@/components/blocks/global/SecondaryButton'
 import { getGeolocationData } from '@/utils/services'
 import Wrapper from './styles'
 
-class CitySearchField extends Component {
-  state = {
-    coords: {
-      longitude: 0,
-      latitude: 0,
-    },
-  }
-
-  handleFindCityClick = () => {
+const CitySearchField = ({ city, setCoords }) => {
+  const handleFindCityClick = () => {
     getGeolocationData().then(
-      result => {
-        this.setState(state => ({
-          ...state,
-          coords: {
-            longitude: result.geoObjects.position[0],
-            latitude: result.geoObjects.position[1],
-          },
-        }))
+      responseData => {
+        setCoords({
+          longitude: responseData.geoObjects.position[0],
+          latitude: responseData.geoObjects.position[1],
+        })
       },
-      err => console.log('error', err) // @todo what is here??
+      error => console.log('error', error) // @todo
     )
   }
 
-  render () {
-    return (
-      <Wrapper>
-        <label htmlFor="city">Your City:</label>
-        <CitySearchInput />
-        <SecondaryButton
-          icon="search"
-          onClick={this.handleFindCityClick}
-        >
-          Find your city
-        </SecondaryButton>
-      </Wrapper>
-    )
-  }
+  return (
+    <Wrapper>
+      <label htmlFor="city">Your City:</label>
+      <CitySearchInput />
+      <SecondaryButton icon="search" onClick={handleFindCityClick}>
+        Find your city
+      </SecondaryButton>
+      {city && (
+        <p>
+          Your selected city: <b>{city}</b>
+        </p>
+      )}
+    </Wrapper>
+  )
+}
+
+CitySearchField.propTypes = {
+  city: PropTypes.string,
+  setCoords: PropTypes.func.isRequired,
 }
 
 export default CitySearchField

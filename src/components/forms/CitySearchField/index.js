@@ -1,3 +1,3 @@
-import CitySearchField from './component'
+import CitySearchField from './container'
 
 export default CitySearchField
