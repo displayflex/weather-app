@@ -1,3 +1,3 @@
-import SetupPanel from './component'
+import SetupPanel from './container'
 
 export default SetupPanel

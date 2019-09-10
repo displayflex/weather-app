@@ -1,6 +1,4 @@
-// Put here basic action-creator functions or basic actions
-
-import { CHANGE_SERVICE } from '@/constants'
+import { CHANGE_SERVICE } from '@/constants/actions'
 
 export const changeService = payload => ({
   payload,
