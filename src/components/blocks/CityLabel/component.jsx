@@ -1,7 +1,9 @@
 import React from 'react'
 
+import Header from './styles'
+
 const CityLabel = () => (
-  <h2>London</h2>
+  <Header>London</Header>
 )
 
 export default CityLabel

@@ -1,36 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-import AutoComplete from './styles'
+import Input from './styles'
 
-const { Option } = AutoComplete
-
-class CitySearchInput extends Component {
-  state = {
-    result: [],
+const CitySearchInput = ({ setCityInputValue }) => {
+  const handleInputChange = event => {
+    setCityInputValue(event.target.value)
   }
 
-  handleSearch = value => {
-    let result
-    if (!value || value.length <= 3) {
-      result = []
-    } else {
-      result = ['London', 'Moscow', 'New York'].filter(
-        city => city.toLowerCase().indexOf(value.toLowerCase()) !== -1
-      )
-    }
-    this.setState({ result })
-  }
-
-  render () {
-    const { result } = this.state
-    const children = result.map(city => <Option key={city}>{city}</Option>)
-
-    return (
-      <AutoComplete onSearch={this.handleSearch} placeholder="Type your city here...">
-        {children}
-      </AutoComplete>
-    )
-  }
+  return <Input placeholder="Type your city here..." onChange={handleInputChange} />
 }
 
 export default CitySearchInput

@@ -1,3 +1,3 @@
-import CitySearchInput from './component'
+import CitySearchInput from './container'
 
 export default CitySearchInput

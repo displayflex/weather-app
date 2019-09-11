@@ -94,3 +94,21 @@ export const loadYandexScript = (onDone, onError) => {
 
   document.head.appendChild(script)
 }
+
+export const getDataFromCoords = (latitude, longitude) => {
+  return new Promise((resolve, reject) => {
+    fetch(`https://geocode.xyz/${latitude},${longitude}?json=1`)
+      .then(response => response.json())
+      .then(data => resolve(data))
+      .catch(error => reject(error))
+  })
+}
+
+export const getCoordsFromCityName = city => {
+  return new Promise((resolve, reject) => {
+    fetch(`https://geocode.xyz/${city}?json=1`)
+      .then(response => response.json())
+      .then(data => resolve(data))
+      .catch(error => reject(error))
+  })
+}

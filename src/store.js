@@ -51,6 +51,7 @@ export const getStore = () => {
 //   },
 //   location: {
 //     city: '',
+//     cityInputValue: '',
 //     coords: {
 //       longitude: 0,
 //       latitude: 0,
@@ -59,5 +60,4 @@ export const getStore = () => {
 //     weather: '',
 //   },
 //   date: 1568032519075,
-//   isLoading: false
 // }

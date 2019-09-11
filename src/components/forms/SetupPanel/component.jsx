@@ -1,25 +1,24 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import CitySearchField from '@/components/forms/CitySearchField'
 import ServiceSelectField from '@/components/forms/ServiceSelectField'
 import PrimaryButton from '@/components/blocks/global/PrimaryButton'
 import Form from './styles'
 
-const SetupPanel = ({ city }) => {
+const SetupPanel = () => {
+  const handleResultButtonClick = () => {
+
+  }
+
   return (
     <Form>
       <CitySearchField />
       <ServiceSelectField />
-      <PrimaryButton className="result-btn" icon="cloud-upload" disabled={!city}>
+      <PrimaryButton className="result-btn" icon="cloud-upload" onClick={handleResultButtonClick}>
         Show weather
       </PrimaryButton>
     </Form>
   )
-}
-
-SetupPanel.propTypes = {
-  city: PropTypes.string,
 }
 
 export default SetupPanel

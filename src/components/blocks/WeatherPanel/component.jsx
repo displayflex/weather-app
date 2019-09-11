@@ -2,13 +2,16 @@ import React from 'react'
 
 import CityLabel from '@/components/blocks/CityLabel'
 import WeatherWidget from '@/components/blocks/WeatherWidget'
+import SecondaryButton from '@/components/blocks/global/SecondaryButton'
 
 const WeatherPanel = () => {
   return (
     <div>
       <CityLabel />
       <WeatherWidget />
-      <button type="button">Change Setup</button>
+      <SecondaryButton icon="setting">
+        Change Setup
+      </SecondaryButton>
     </div>
   )
 }
