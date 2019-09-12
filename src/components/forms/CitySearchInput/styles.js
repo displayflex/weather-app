@@ -21,7 +21,7 @@ export default styled(Input)`
     margin-right: 10px;
 
     &&& {
-      width: 70%;
+      width: 65%;
     }
   }
 `

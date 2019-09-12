@@ -1,13 +1,49 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Redirect } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 import CitySearchField from '@/components/forms/CitySearchField'
 import ServiceSelectField from '@/components/forms/ServiceSelectField'
 import PrimaryButton from '@/components/blocks/global/PrimaryButton'
+import Loader from '@/components/blocks/global/Loader'
+import { getCoordsFromCityName, fetchServiceData, mapServiceData } from '@/utils/services'
+import { WEATHER_PAGE_PATH } from '@/constants/paths'
 import Form from './styles'
 
-const SetupPanel = () => {
-  const handleResultButtonClick = () => {
+const SetupPanel = ({ service, city, cityInputValue, setLocationData, setWeatherData }) => {
+  const [isLoading, switchIsLoading] = useState(false)
+  const [isDataRecieved, switchIsDataRecieved] = useState(false)
 
+  const handleResultButtonClick = () => {
+    switchIsLoading(!isLoading)
+
+    if (cityInputValue && cityInputValue !== city) {
+      getCoordsFromCityName(cityInputValue).then(responseData => {
+        const latitude = responseData.latt
+        const longitude = responseData.longt
+
+        setLocationData({
+          latitude,
+          longitude,
+          city: cityInputValue,
+        })
+
+        // @todo .then in .then ??
+        fetchServiceData(service, latitude, longitude).then(data => {
+          setWeatherData(mapServiceData(service, data))
+
+          switchIsDataRecieved(!isDataRecieved)
+        })
+      })
+    }
+  }
+
+  if (isLoading && !isDataRecieved) {
+    return <Loader />
+  }
+
+  if (isDataRecieved) {
+    return <Redirect to={WEATHER_PAGE_PATH} />
   }
 
   return (
@@ -19,6 +55,14 @@ const SetupPanel = () => {
       </PrimaryButton>
     </Form>
   )
+}
+
+SetupPanel.propTypes = {
+  service: PropTypes.string.isRequired,
+  city: PropTypes.string,
+  cityInputValue: PropTypes.string,
+  setLocationData: PropTypes.func.isRequired,
+  setWeatherData: PropTypes.func.isRequired,
 }
 
 export default SetupPanel
