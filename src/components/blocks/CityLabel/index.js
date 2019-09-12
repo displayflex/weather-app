@@ -1,3 +1,3 @@
-import CityLabel from './component'
+import CityLabel from './container'
 
 export default CityLabel

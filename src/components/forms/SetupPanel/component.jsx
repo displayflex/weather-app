@@ -10,7 +10,15 @@ import { getCoordsFromCityName, fetchServiceData, mapServiceData } from '@/utils
 import { WEATHER_PAGE_PATH } from '@/constants/paths'
 import Form from './styles'
 
-const SetupPanel = ({ service, city, cityInputValue, setLocationData, setWeatherData }) => {
+const SetupPanel = ({
+  service,
+  city,
+  latitude,
+  longitude,
+  cityInputValue,
+  setLocationData,
+  setWeatherData,
+}) => {
   const [isLoading, switchIsLoading] = useState(false)
   const [isDataRecieved, switchIsDataRecieved] = useState(false)
 
@@ -35,6 +43,13 @@ const SetupPanel = ({ service, city, cityInputValue, setLocationData, setWeather
           switchIsDataRecieved(!isDataRecieved)
         })
       })
+    } else if (city) {
+      // @todo get rid of code repeat?
+      fetchServiceData(service, latitude, longitude).then(data => {
+        setWeatherData(mapServiceData(service, data))
+
+        switchIsDataRecieved(!isDataRecieved)
+      })
     }
   }
 
@@ -50,7 +65,12 @@ const SetupPanel = ({ service, city, cityInputValue, setLocationData, setWeather
     <Form>
       <CitySearchField />
       <ServiceSelectField />
-      <PrimaryButton className="result-btn" icon="cloud-upload" onClick={handleResultButtonClick}>
+      <PrimaryButton
+        className="result-btn"
+        icon="cloud-upload"
+        onClick={handleResultButtonClick}
+        disabled={!city}
+      >
         Show weather
       </PrimaryButton>
     </Form>
@@ -61,6 +81,8 @@ SetupPanel.propTypes = {
   service: PropTypes.string.isRequired,
   city: PropTypes.string,
   cityInputValue: PropTypes.string,
+  latitude: PropTypes.number,
+  longitude: PropTypes.number,
   setLocationData: PropTypes.func.isRequired,
   setWeatherData: PropTypes.func.isRequired,
 }

@@ -103,7 +103,7 @@ export const mapServiceData = (service, data) => {
   switch (service) {
     case OPEN_WEATHER:
       return {
-        temperature: Math.round(data.main.temp),
+        temperature: data.main.temp.toFixed(1),
         weather: data.weather[0].main, // @todo try data.weather[0].description
         weatherImageSrc: `${URL_OPENWEATHER}/img/wn/${data.weather[0].icon}@2x.png`,
         // @todo add field "success"
@@ -111,7 +111,7 @@ export const mapServiceData = (service, data) => {
 
     case WEATHERSTACK:
       return {
-        temperature: Math.round(data.current.temperature),
+        temperature: data.current.temperature.toFixed(1),
         weather: data.current.weather_descriptions[0],
         weatherImageSrc: data.current.weather_icons[0],
         // @todo add field "success"

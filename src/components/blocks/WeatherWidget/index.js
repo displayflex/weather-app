@@ -1,3 +1,3 @@
-import WeatherWidget from './component'
+import WeatherWidget from './container'
 
 export default WeatherWidget

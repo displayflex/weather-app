@@ -6,6 +6,8 @@ const mapStateToProps = state => ({
   city: state.location.city,
   cityInputValue: state.location.cityInputValue,
   service: state.services.current,
+  latitude: state.location.coords.latitude,
+  longitude: state.location.coords.longitude,
 })
 
 const mapDispatchToProps = dispatch => ({

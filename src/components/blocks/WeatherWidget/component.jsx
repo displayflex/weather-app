@@ -1,13 +1,20 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-const WeatherWidget = () => (
+const WeatherWidget = ({ temperature, weather, weatherImageSrc }) => (
   <div>
     <b>
-      15 <sup>o</sup> C
+      {temperature} <sup>o</sup> c
     </b>
-    <span>Heavy Cloud</span>
-    <img src="https://ssl.gstatic.com/onebox/weather/64/partly_cloudy.png" alt="current weather" />
+    <span>{weather}</span>
+    <img src={weatherImageSrc} alt={weather} />
   </div>
 )
+
+WeatherWidget.propTypes = {
+  temperature: PropTypes.string,
+  weather: PropTypes.string,
+  weatherImageSrc: PropTypes.string,
+}
 
 export default WeatherWidget
