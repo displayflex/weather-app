@@ -1,5 +1,5 @@
 import { CHANGE_SERVICE } from '@/constants/actions'
-import { APIXU, OPEN_WEATHER } from '@/constants/services'
+import { OPEN_WEATHER, WEATHERSTACK } from '@/constants/services'
 
 const initialState = {
   all: [
@@ -8,8 +8,8 @@ const initialState = {
       name: 'Open Weather',
     },
     {
-      id: APIXU,
-      name: 'APIXU',
+      id: WEATHERSTACK,
+      name: 'Weatherstack',
     },
   ],
   current: 'OPEN_WEATHER',

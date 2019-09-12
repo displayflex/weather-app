@@ -43,8 +43,8 @@ export const getStore = () => {
 //         name: 'Open Weather',
 //       },
 //       {
-//         id: APIXU,
-//         name: 'APIXU',
+//         id: WEATHERSTACK,
+//         name: 'Weatherstack',
 //       },
 //     ],
 //     current: 'OPEN_WEATHER',
@@ -58,6 +58,7 @@ export const getStore = () => {
 //     },
 //     temperature: 0,
 //     weather: '',
+//     imageSrc: ''
 //   },
 //   date: 1568032519075,
 // }
