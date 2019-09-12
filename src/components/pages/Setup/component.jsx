@@ -23,7 +23,7 @@ class SetupPage extends Component {
             this.props.setLocationData({
               longitude,
               latitude,
-              city: data.city,
+              city: data.region,
             })
 
             this.setState({ isScriptLoading: false })

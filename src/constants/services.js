@@ -1,5 +1,6 @@
 export const APIXU = 'APIXU'
 export const OPEN_WEATHER = 'OPEN_WEATHER'
 export const YANDEX = 'YANDEX'
+export const GEOCODEXYZ = 'GEOCODEXYZ'
 
-// @todo add word SERVICE to the end?
+// @todo add _SERVICE to the end?
