@@ -11,11 +11,11 @@ export default {
     backgroundDark: '#000',
     primary: '#1890ff',
     primaryLight: '#40a9ff',
-    secondary: '#d9e7fb', // @todo change names
+    secondary: '#d9e7fb',
     secondaryLight: '#e3edfb',
     font: 'rgba(0,0,0,0.65)',
-    fortPrimary: '#ffffff',
-    fortSecondary: '#6b8cbc',
+    fontPrimary: '#ffffff',
+    fontSecondary: '#6b8cbc',
   },
   fontSizes: {
     werySmall: '12px',

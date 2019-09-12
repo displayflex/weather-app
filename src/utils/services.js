@@ -100,21 +100,36 @@ export const getCoordsFromCityName = city => {
 }
 
 export const mapServiceData = (service, data) => {
+  console.log(service, data)
   switch (service) {
     case OPEN_WEATHER:
+      if (data.name === 'Earth' || (data.coord.lat === 0 && data.coord.lon === 0)) {
+        return {
+          temperature: null,
+          weather: '',
+          weatherImageSrc: '',
+        }
+      }
+
       return {
         temperature: data.main.temp.toFixed(1),
-        weather: data.weather[0].main, // @todo try data.weather[0].description
+        weather: data.weather[0].main,
         weatherImageSrc: `${URL_OPENWEATHER}/img/wn/${data.weather[0].icon}@2x.png`,
-        // @todo add field "success"
       }
 
     case WEATHERSTACK:
+      if ('success' in data && !data.success) {
+        return {
+          temperature: null,
+          weather: '',
+          weatherImageSrc: '',
+        }
+      }
+
       return {
         temperature: data.current.temperature.toFixed(1),
         weather: data.current.weather_descriptions[0],
         weatherImageSrc: data.current.weather_icons[0],
-        // @todo add field "success"
       }
 
     default:

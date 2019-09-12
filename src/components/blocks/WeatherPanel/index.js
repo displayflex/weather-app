@@ -1,3 +1,3 @@
-import WeatherPanel from './component'
+import WeatherPanel from './container'
 
 export default WeatherPanel

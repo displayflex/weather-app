@@ -21,8 +21,8 @@ class SetupPage extends Component {
           // @todo .then in .then??
           getDataFromCoords(longitude, latitude).then(data => {
             this.props.setLocationData({
-              longitude,
-              latitude,
+              longitude: longitude,
+              latitude: latitude,
               city: data.region,
             })
 

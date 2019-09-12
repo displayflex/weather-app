@@ -4,6 +4,7 @@ import { changeService } from '@/actions/services'
 
 const mapStateToProps = state => ({
   services: state.services.all,
+  currentService: state.services.current,
 })
 
 const mapDispatchToProps = dispatch => ({

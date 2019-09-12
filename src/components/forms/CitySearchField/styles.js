@@ -11,18 +11,10 @@ export default styled.div`
     width: 100%;
   }
 
-  button {
-    width: 100%;
-  }
-
   @media (min-width: ${props => props.theme.width.tablet}) {
-    display: flex;
-    flex-wrap: wrap;
-
-    button {
-      width: auto;
-      flex-grow: 1;
-    }
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   @media (min-width: ${props => props.theme.width.desktop}) {

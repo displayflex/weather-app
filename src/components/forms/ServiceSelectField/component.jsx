@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Select from '@/components/blocks/global/Select'
 import Wrapper from './styles'
 
-const ServiceSelectField = ({ services, changeService }) => {
+const ServiceSelectField = ({ services, currentService, changeService }) => {
   const { Option } = Select
 
   const handleServiceChange = value => {
@@ -20,7 +20,7 @@ const ServiceSelectField = ({ services, changeService }) => {
       <label htmlFor="service">Weather Service:</label>
       <Select
         id="service"
-        defaultValue={services[0].id}
+        defaultValue={currentService || services[0].id}
         onChange={value => handleServiceChange(value)}
       >
         {services.map(service => (
@@ -40,6 +40,7 @@ ServiceSelectField.propTypes = {
       name: PropTypes.string.isRequired,
     }).isRequired
   ).isRequired,
+  currentService: PropTypes.string,
   changeService: PropTypes.func.isRequired,
 }
 

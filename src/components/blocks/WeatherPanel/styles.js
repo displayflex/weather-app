@@ -1,11 +1,14 @@
 import styled from 'styled-components'
 
-export default styled.form`
-  margin-left: auto;
-  margin-right: auto;
-
+export default styled.div`
   button {
     width: 100%;
+  }
+
+  p {
+    text-align: center;
+    font-size: ${props => props.theme.fontSizes.big};
+    margin-bottom: 40px;
   }
 
   @media (min-width: ${props => props.theme.width.tablet}) {
@@ -17,11 +20,5 @@ export default styled.form`
       padding-left: 30px;
       padding-right: 30px;
     }
-  }
-
-  @media (min-width: ${props => props.theme.width.desktop}) {
-    display: flex;
-    flex-wrap: wrap;
-    max-width: 1100px;
   }
 `

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export default styled.div`
-  margin-bottom: 40px;
+  margin-bottom: 70px;
 
   label {
     display: block;
@@ -10,21 +10,14 @@ export default styled.div`
   }
 
   @media (min-width: ${props => props.theme.width.tablet}) {
-    margin-bottom: 50px;
-
-    .ant-select {
-      width: 70%;
-    }
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   @media (min-width: ${props => props.theme.width.desktop}) {
     margin-bottom: 0;
+    width: 100%;
     width: calc(30% - 25px);
-
-    .ant-select {
-      width: 100%;
-    }
   }
 `
-
-// @todo use .ant-select here?

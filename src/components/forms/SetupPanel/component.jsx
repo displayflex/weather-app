@@ -62,11 +62,10 @@ const SetupPanel = ({
   }
 
   return (
-    <Form>
+    <Form onSubmit={handleResultButtonClick}>
       <CitySearchField />
       <ServiceSelectField />
       <PrimaryButton
-        className="result-btn"
         icon="cloud-upload"
         onClick={handleResultButtonClick}
         disabled={!city}
@@ -81,12 +80,16 @@ SetupPanel.propTypes = {
   service: PropTypes.string.isRequired,
   city: PropTypes.string,
   cityInputValue: PropTypes.string,
-  latitude: PropTypes.number,
-  longitude: PropTypes.number,
+  latitude: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+  longitude: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
   setLocationData: PropTypes.func.isRequired,
   setWeatherData: PropTypes.func.isRequired,
 }
 
 export default SetupPanel
-
-// @todo className="result-btn" ???
