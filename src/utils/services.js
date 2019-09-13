@@ -99,8 +99,74 @@ export const getCoordsFromCityName = city => {
   return fetchServiceData(GEOCODEXYZ, city)
 }
 
+// @todo recieve full data, not only iconId?
+export const mapOpenWeatherImageUrl = iconId => {
+  // @todo name?
+  const iconList = {
+    '01d': 'day',
+    '01n': 'night',
+    '02d': 'cloudy-day-1',
+    '02n': 'cloudy-night-1',
+    '03d': 'cloudy',
+    '03n': 'cloudy',
+    '04d': 'cloudy',
+    '04n': 'cloudy',
+    '09d': 'rainy-7',
+    '09n': 'rainy-7',
+    '10d': 'rainy-5',
+    '10n': 'rainy-5',
+    '11d': 'thunder',
+    '11n': 'thunder',
+    '13d': 'snowy-5',
+    '13n': 'snowy-5',
+  }
+
+  if (iconId in iconList) {
+    return `/icons/${iconList[iconId]}.svg`
+  }
+
+  return `${URL_OPENWEATHER}/img/wn/${iconId}@2x.png`
+}
+
+export const mapWeatherStackImageUrl = data => {
+  const [weather] = data.current.weather_descriptions
+  // @todo name?
+  const weatherList = {
+    Sunny: 'day',
+    Clear: 'night',
+    Clouds: 'cloudy',
+    Overcast: 'cloudy',
+    Moderate: 'rainy-7',
+    Rain: 'rainy-5',
+    'Partly cloudy': 'cloudy-day-1',
+    'Light Rain Shower': 'rainy-4',
+    'Light Rain': 'rainy-4',
+    'Moderate or heavy rain shower': 'rainy-7',
+    'Heavy rain shower': 'rainy-7',
+  }
+
+  const commonWeatherList = {
+    sun: 'day',
+    cloud: 'cloudy',
+    rain: 'rainy-5',
+    thunder: 'thunder',
+    snow: 'snowy-5',
+  }
+
+  if (weather in weatherList) {
+    return `/icons/${weatherList[weather]}.svg`
+  } else if (Object.keys(commonWeatherList).indexOf(weather.toLowerCase()) !== -1) {
+    // @todo simplify it
+    const index = Object.keys(commonWeatherList).indexOf(weather.toLowerCase())
+    const key = commonWeatherList[index]
+
+    return `/icons/${commonWeatherList[key]}.svg`
+  }
+
+  return data.current.weather_icons[0]
+}
+
 export const mapServiceData = (service, data) => {
-  console.log(service, data)
   switch (service) {
     case OPEN_WEATHER:
       if (data.name === 'Earth' || (data.coord.lat === 0 && data.coord.lon === 0)) {
@@ -114,7 +180,7 @@ export const mapServiceData = (service, data) => {
       return {
         temperature: data.main.temp.toFixed(1),
         weather: data.weather[0].main,
-        weatherImageSrc: `${URL_OPENWEATHER}/img/wn/${data.weather[0].icon}@2x.png`,
+        weatherImageSrc: mapOpenWeatherImageUrl(data.weather[0].icon),
       }
 
     case WEATHERSTACK:
@@ -129,7 +195,7 @@ export const mapServiceData = (service, data) => {
       return {
         temperature: data.current.temperature.toFixed(1),
         weather: data.current.weather_descriptions[0],
-        weatherImageSrc: data.current.weather_icons[0],
+        weatherImageSrc: mapWeatherStackImageUrl(data),
       }
 
     default:
