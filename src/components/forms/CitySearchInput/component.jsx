@@ -4,17 +4,21 @@ import PropTypes from 'prop-types'
 import Input from './styles'
 
 const CitySearchInput = ({ city, setCityInputValue }) => {
-  // @todo
-  // useEffect(() => {
-  //   setCityInputValue(...Ref)
-  // })
+  const inputEl = useRef(null)
+  useEffect(() => {
+    setCityInputValue(inputEl.current.input.value)
+  })
 
-  const handleInputChange = event => {
-    setCityInputValue(event.target.value)
+  const handleInputChange = evt => {
+    setCityInputValue(evt.target.value)
   }
 
   return (
-    <Input placeholder="Type your city here..." onChange={handleInputChange} defaultValue={city} />
+    <Input
+      ref={inputEl}
+      placeholder="Type your city here..."
+      onChange={handleInputChange}
+      defaultValue={city} />
   )
 }
 

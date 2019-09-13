@@ -22,8 +22,14 @@ const SetupPanel = ({
   const [isLoading, switchIsLoading] = useState(false)
   const [isDataRecieved, switchIsDataRecieved] = useState(false)
 
-  const handleResultButtonClick = () => {
-    switchIsLoading(!isLoading)
+  const handleResultButtonClick = evt => {
+    evt.preventDefault()
+
+    if (!city) {
+      return
+    }
+
+    switchIsLoading(prevIsLoading => !prevIsLoading)
 
     if (cityInputValue && cityInputValue !== city) {
       getCoordsFromCityName(cityInputValue).then(responseData => {
@@ -39,16 +45,14 @@ const SetupPanel = ({
         // @todo .then in .then ??
         fetchServiceData(service, latitude, longitude).then(data => {
           setWeatherData(mapServiceData(service, data))
-
-          switchIsDataRecieved(!isDataRecieved)
+          switchIsDataRecieved(prevIsDataRecieved => !prevIsDataRecieved)
         })
       })
     } else if (city) {
       // @todo get rid of code repeat?
       fetchServiceData(service, latitude, longitude).then(data => {
         setWeatherData(mapServiceData(service, data))
-
-        switchIsDataRecieved(!isDataRecieved)
+        switchIsDataRecieved(prevIsDataRecieved => !prevIsDataRecieved)
       })
     }
   }
@@ -65,11 +69,7 @@ const SetupPanel = ({
     <Form onSubmit={handleResultButtonClick}>
       <CitySearchField />
       <ServiceSelectField />
-      <PrimaryButton
-        icon="cloud-upload"
-        onClick={handleResultButtonClick}
-        disabled={!city}
-      >
+      <PrimaryButton icon="cloud-upload" onClick={handleResultButtonClick} disabled={!city}>
         Show weather
       </PrimaryButton>
     </Form>
@@ -80,14 +80,8 @@ SetupPanel.propTypes = {
   service: PropTypes.string.isRequired,
   city: PropTypes.string,
   cityInputValue: PropTypes.string,
-  latitude: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
-  longitude: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
+  latitude: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  longitude: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   setLocationData: PropTypes.func.isRequired,
   setWeatherData: PropTypes.func.isRequired,
 }

@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Redirect } from 'react-router-dom'
 
 import StandardLayout from '@/components/layouts/Standard'
 import SetupPanel from '@/components/forms/SetupPanel'
 import Loader from '@/components/blocks/global/Loader'
 import { loadYandexScript, getGeolocationData, getDataFromCoords } from '@/utils/services'
+import { ERROR_PAGE_PATH } from '@/constants/paths'
 
 class SetupPage extends Component {
   state = {
@@ -29,7 +31,9 @@ class SetupPage extends Component {
             this.setState({ isScriptLoading: false })
           })
         },
-        error => console.log('error', error) // @todo
+        () => {
+          this.setState({ isScriptLoadedWithError: true })
+        }
       )
     }
 
@@ -42,7 +46,7 @@ class SetupPage extends Component {
 
   render () {
     if (this.state.isScriptLoadedWithError) {
-      return <p>Something went wrong</p> // @todo
+      return <Redirect to={ERROR_PAGE_PATH} />
     }
 
     return (

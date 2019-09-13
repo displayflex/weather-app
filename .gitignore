@@ -24,6 +24,3 @@ yarn-debug.log*
 yarn-error.log*
 
 __diff_output__
-
-# @todo remove this!
-notes.js
