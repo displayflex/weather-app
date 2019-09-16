@@ -1,12 +1,12 @@
 import React from 'react'
 
 import { Icon } from 'antd'
-import Header from './styles'
+import HeaderWrapper, { MainHeading } from './styles'
 
 export default () => (
-  <Header>
-    <h1>
+  <HeaderWrapper>
+    <MainHeading>
       <Icon type="cloud" theme="filled" /> Weather App
-    </h1>
-  </Header>
+    </MainHeading>
+  </HeaderWrapper>
 )

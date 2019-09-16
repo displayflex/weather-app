@@ -7,16 +7,16 @@ import CityLabel from '@/components/blocks/CityLabel'
 import WeatherWidget from '@/components/blocks/WeatherWidget'
 import SecondaryButton from '@/components/blocks/global/SecondaryButton'
 import { SETUP_PAGE_PATH } from '@/constants/paths'
-import Wrapper from './styles'
+import Wrapper, { WrongDataParagraph } from './styles'
 
 const WeatherPanel = ({ temperature, weather }) => {
   let content
 
   if (!temperature && !weather) {
     content = (
-      <p>
+      <WrongDataParagraph>
         <Icon type="warning" /> There is no data for your city. Try to change the setup.
-      </p>
+      </WrongDataParagraph>
     )
   } else {
     content = (

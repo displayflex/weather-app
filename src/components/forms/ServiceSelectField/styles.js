@@ -3,12 +3,6 @@ import styled from 'styled-components'
 export default styled.div`
   margin-bottom: 70px;
 
-  label {
-    display: block;
-    font-size: ${props => props.theme.fontSizes.normal};
-    margin-bottom: 5px;
-  }
-
   @media (min-width: ${props => props.theme.width.tablet}) {
     width: 70%;
     margin-left: auto;
@@ -20,4 +14,10 @@ export default styled.div`
     width: 100%;
     width: calc(30% - 25px);
   }
+`
+
+export const ServiceSelectLabel = styled.label`
+  display: block;
+  font-size: ${props => props.theme.fontSizes.normal};
+  margin-bottom: 5px;
 `

@@ -11,10 +11,10 @@ export default styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
+`
 
-  h1 {
-    font-size: ${props => props.theme.fontSizes.veryBig};
-    color: ${props => props.theme.colors.fontPrimary};
-    margin-bottom: 0;
-  }
+export const MainHeading = styled.h1`
+  font-size: ${props => props.theme.fontSizes.veryBig};
+  color: ${props => props.theme.colors.fontPrimary};
+  margin-bottom: 0;
 `
