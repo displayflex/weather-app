@@ -25,7 +25,7 @@ const SetupPanel = ({
   const handleResultButtonClick = evt => {
     evt.preventDefault()
 
-    if (!city) {
+    if (!city || !cityInputValue) {
       return
     }
 
@@ -69,7 +69,11 @@ const SetupPanel = ({
     <Form onSubmit={handleResultButtonClick}>
       <CitySearchField />
       <ServiceSelectField />
-      <PrimaryButton icon="cloud-upload" onClick={handleResultButtonClick} disabled={!city}>
+      <PrimaryButton
+        icon="cloud-upload"
+        onClick={handleResultButtonClick}
+        disabled={!cityInputValue}
+      >
         Show weather
       </PrimaryButton>
     </Form>

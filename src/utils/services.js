@@ -100,7 +100,7 @@ export const getCoordsFromCityName = city => {
 }
 
 // @todo recieve full data, not only iconId?
-export const mapOpenWeatherImageUrl = iconId => {
+const mapOpenWeatherImageUrl = iconId => {
   // @todo name?
   const iconList = {
     '01d': 'day',
@@ -128,7 +128,7 @@ export const mapOpenWeatherImageUrl = iconId => {
   return `${URL_OPENWEATHER}/img/wn/${iconId}@2x.png`
 }
 
-export const mapWeatherStackImageUrl = data => {
+const mapWeatherStackImageUrl = data => {
   const [weather] = data.current.weather_descriptions
   // @todo name?
   const weatherList = {
@@ -166,17 +166,58 @@ export const mapWeatherStackImageUrl = data => {
   return data.current.weather_icons[0]
 }
 
-export const mapServiceData = (service, data) => {
+const isRecievedDataInvalid = (service, data) => {
   switch (service) {
     case OPEN_WEATHER:
-      if (data.name === 'Earth' || (data.coord.lat === 0 && data.coord.lon === 0)) {
-        return {
-          temperature: null,
-          weather: '',
-          weatherImageSrc: '',
-        }
+      if ('cod' in data && data.cod === '400') {
+        return true
+      } else if ('name' in data && data.name === 'Earth') {
+        return true
+      } else if (
+        'coord' in data &&
+        'lat' in data.coord &&
+        'lon' in data.coord &&
+        data.coord.lat === 0 &&
+        data.coord.lon === 0
+      ) {
+        return true
       }
 
+      return false
+
+    case WEATHERSTACK:
+      if ('success' in data && !data.success) {
+        return true
+      } else if (
+        'location' in data &&
+        'country' in data.location &&
+        'lat' in data.location &&
+        'lon' in data.location &&
+        !data.location.coutry &&
+        !data.location.lat &&
+        !data.location.lon
+      ) {
+        return true
+      }
+
+      return false
+
+    default:
+      return false
+  }
+}
+
+export const mapServiceData = (service, data) => {
+  if (isRecievedDataInvalid(service, data)) {
+    return {
+      temperature: null,
+      weather: '',
+      weatherImageSrc: '',
+    }
+  }
+
+  switch (service) {
+    case OPEN_WEATHER:
       return {
         temperature: data.main.temp.toFixed(1),
         weather: data.weather[0].main,
@@ -184,14 +225,6 @@ export const mapServiceData = (service, data) => {
       }
 
     case WEATHERSTACK:
-      if ('success' in data && !data.success) {
-        return {
-          temperature: null,
-          weather: '',
-          weatherImageSrc: '',
-        }
-      }
-
       return {
         temperature: data.current.temperature.toFixed(1),
         weather: data.current.weather_descriptions[0],
