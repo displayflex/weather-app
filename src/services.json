@@ -1,0 +1,10 @@
+[
+  {
+    "id": "OPEN_WEATHER",
+    "name": "Open Weather"
+  },
+  {
+    "id": "WEATHERSTACK",
+    "name": "Weatherstack"
+  }
+]
