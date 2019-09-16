@@ -38,6 +38,9 @@ export const getStore = () => {
 // state = {
 //   services: {
 //     current: 'OPEN_WEATHER',
+//     geolocationData: null,
+//     isYandexScriptLoaded: false,
+//     isYandexScriptLoadFailed: false,
 //   },
 //   location: {
 //     city: '',

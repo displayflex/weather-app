@@ -7,25 +7,25 @@ import {
 } from '@/constants/endpoints'
 import { YANDEX, OPEN_WEATHER, WEATHERSTACK, GEOCODEXYZ } from '@/constants/services'
 
-export const getGeolocationData = () => {
-  return new Promise((resolve, reject) => {
-    window.ymaps.ready(() => {
-      window.ymaps.geolocation
-        .get({
-          provider: 'auto',
-          autoReverseGeocode: false,
-        })
-        .then(
-          result => {
-            resolve(result)
-          },
-          error => reject(error)
-        )
-    })
-  })
-}
+// export const getGeolocationData = () => {
+//   return new Promise((resolve, reject) => {
+//     window.ymaps.ready(() => {
+//       window.ymaps.geolocation
+//         .get({
+//           provider: 'auto',
+//           autoReverseGeocode: false,
+//         })
+//         .then(
+//           result => {
+//             resolve(result)
+//           },
+//           error => reject(error)
+//         )
+//     })
+//   })
+// }
 
-const getServiceUrl = (service, ...args) => {
+export const getServiceUrl = (service, ...args) => {
   let apikey
 
   switch (service) {
@@ -67,14 +67,14 @@ const getServiceUrl = (service, ...args) => {
   }
 }
 
-export const loadYandexScript = (onDone, onError) => {
-  const script = document.createElement('script')
-  script.onload = onDone
-  script.onerror = onError
-  script.src = getServiceUrl(YANDEX)
+// export const loadYandexScript = (onDone, onError) => {
+//   const script = document.createElement('script')
+//   script.onload = onDone
+//   script.onerror = onError
+//   script.src = getServiceUrl(YANDEX)
 
-  document.head.appendChild(script)
-}
+//   document.head.appendChild(script)
+// }
 
 export const fetchServiceData = async (service, ...args) => {
   const url = getServiceUrl(service, ...args)
