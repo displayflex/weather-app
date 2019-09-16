@@ -37,16 +37,6 @@ export const getStore = () => {
 
 // state = {
 //   services: {
-//     all: [
-//       {
-//         id: OPEN_WEATHER,
-//         name: 'Open Weather',
-//       },
-//       {
-//         id: WEATHERSTACK,
-//         name: 'Weatherstack',
-//       },
-//     ],
 //     current: 'OPEN_WEATHER',
 //   },
 //   location: {
