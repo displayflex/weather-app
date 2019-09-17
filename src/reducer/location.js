@@ -19,7 +19,7 @@ const initialState = {
   weather: '',
   weatherImageSrc: '',
   data: null,
-  isLocationDataSet: false,
+  isErrorInLoad: false,
 }
 
 const location = (state = initialState, action) => {
@@ -33,7 +33,7 @@ const location = (state = initialState, action) => {
           longitude: action.payload.longitude,
           latitude: action.payload.latitude,
         },
-        isLocationDataSet: true,
+        isErrorInLoad: true,
       }
 
     case SET_WEATHER_DATA:
@@ -63,7 +63,7 @@ const location = (state = initialState, action) => {
     case FETCH_COORDS_ERROR:
       return {
         ...state,
-        geolocationData: null, // @todo
+        isErrorInLoad: true,
       }
 
     case FETCH_DATA_FROM_COORDS_SUCCESS:
@@ -75,7 +75,7 @@ const location = (state = initialState, action) => {
     case FETCH_DATA_FROM_COORDS_ERROR:
       return {
         ...state,
-        data: null, // @todo
+        isErrorInLoad: true,
       }
 
     default:

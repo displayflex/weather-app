@@ -38,20 +38,19 @@ export const getStore = () => {
 // state = {
 //   services: {
 //     current: 'OPEN_WEATHER',
-//     geolocationData: null,
-//     isYandexScriptLoaded: false,
-//     isYandexScriptLoadFailed: false,
 //   },
 //   location: {
 //     city: '',
 //     cityInputValue: '',
 //     coords: {
-//       longitude: 0,
-//       latitude: 0,
+//       latitude: null,
+//       longitude: null,
 //     },
-//     temperature: 0,
+//     temperature: null,
 //     weather: '',
-//     imageSrc: ''
+//     weatherImageSrc: '',
+//     data: null,
+//     isErrorInLoad: false,
 //   },
 //   date: 1568032519075,
 // }

@@ -4,7 +4,7 @@ import SetupPage from '@/components/pages/Setup/component'
 import { setLocationParams } from '@/actions/location'
 
 const mapStateToProps = state => ({
-  isLocationDataSet: state.location.isLocationDataSet,
+  isErrorInLoad: state.location.isErrorInLoad,
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -42,7 +42,7 @@ class SetupPage extends Component {
           <script src={getServiceUrl(YANDEX)} />
         </Helmet>
         <StandardLayout>
-          {this.props.isLocationDataSet ? <SetupPanel /> : <Loader />}
+          {this.props.isErrorInLoad ? <SetupPanel /> : <Loader />}
         </StandardLayout>
       </>
     )
@@ -50,7 +50,7 @@ class SetupPage extends Component {
 }
 
 SetupPage.propTypes = {
-  isLocationDataSet: PropTypes.bool.isRequired,
+  isErrorInLoad: PropTypes.bool.isRequired,
   setLocationParams: PropTypes.func.isRequired,
 }
 

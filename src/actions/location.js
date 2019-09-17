@@ -35,7 +35,7 @@ export const fetchCoordsSuccess = payload => ({
 })
 
 export const fetchCoordsError = () => ({
-  type: FETCH_COORDS_ERROR, // @todo payload error-message
+  type: FETCH_COORDS_ERROR,
 })
 
 export const fetchDataFromCoords = payload => ({
@@ -49,5 +49,5 @@ export const fetchDataFromCoordsSuccess = payload => ({
 })
 
 export const fetchDataFromCoordsError = () => ({
-  type: FETCH_DATA_FROM_COORDS_ERROR, // @todo payload error-message
+  type: FETCH_DATA_FROM_COORDS_ERROR,
 })
