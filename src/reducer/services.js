@@ -1,11 +1,9 @@
 import { CHANGE_SERVICE } from '@/constants/actions'
 import allServices from '@/services.json'
+import { OPEN_WEATHER } from '@/constants'
 
 const initialState = {
-  current: 'OPEN_WEATHER', // @todo: from constants??
-  geolocationData: null,
-  isYandexScriptLoaded: false,
-  isYandexScriptLoadFailed: false,
+  current: OPEN_WEATHER,
 }
 
 const services = (state = initialState, action) => {
@@ -20,35 +18,9 @@ const services = (state = initialState, action) => {
 
       return state
 
-    case 'YANDEX_SCRIPT_LOADED':
-      return {
-        ...state,
-        isYandexScriptLoaded: true,
-      }
-
-    case 'YANDEX_SCRIPT_LOAD_FAILED':
-      return {
-        ...state,
-        isYandexScriptLoadFailed: true,
-      }
-
-    case 'GEOLOCATION_DATA_RECEIVED':
-      return {
-        ...state,
-        geolocationData: action.payload.data,
-      }
-
-    case 'GEOLOCATION_DATA_REQUEST_FAILED':
-      return {
-        ...state,
-        geolocationData: null,
-      }
-
     default:
       return state
   }
 }
-
-// @todo constants
 
 export default services

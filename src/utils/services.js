@@ -7,24 +7,6 @@ import {
 } from '@/constants/endpoints'
 import { YANDEX, OPEN_WEATHER, WEATHERSTACK, GEOCODEXYZ } from '@/constants/services'
 
-// export const getGeolocationData = () => {
-//   return new Promise((resolve, reject) => {
-//     window.ymaps.ready(() => {
-//       window.ymaps.geolocation
-//         .get({
-//           provider: 'auto',
-//           autoReverseGeocode: false,
-//         })
-//         .then(
-//           result => {
-//             resolve(result)
-//           },
-//           error => reject(error)
-//         )
-//     })
-//   })
-// }
-
 export const getServiceUrl = (service, ...args) => {
   let apikey
 
@@ -55,10 +37,12 @@ export const getServiceUrl = (service, ...args) => {
       return `${URL_YANDEX_API}/2.1/?lang=en_RU&amp;apikey=${apikey}`
 
     case GEOCODEXYZ:
+      apikey = process.env.REACT_APP_API_KEY_GEOCODEXYZ
+
       if (args.length === 2) {
-        return `${URL_GEOCODEXYZ}/${args[0]},${args[1]}?json=1`
+        return `${URL_GEOCODEXYZ}/${args[0]},${args[1]}?json=1&auth=${apikey}`
       } else if (args.length === 1) {
-        return `${URL_GEOCODEXYZ}/${args[0]}?json=1`
+        return `${URL_GEOCODEXYZ}/${args[0]}?json=1&auth=${apikey}`
       }
       break
 
@@ -66,15 +50,6 @@ export const getServiceUrl = (service, ...args) => {
       return null
   }
 }
-
-// export const loadYandexScript = (onDone, onError) => {
-//   const script = document.createElement('script')
-//   script.onload = onDone
-//   script.onerror = onError
-//   script.src = getServiceUrl(YANDEX)
-
-//   document.head.appendChild(script)
-// }
 
 export const fetchServiceData = async (service, ...args) => {
   const url = getServiceUrl(service, ...args)
@@ -91,9 +66,9 @@ export const fetchServiceData = async (service, ...args) => {
   })
 }
 
-export const getDataFromCoords = (latitude, longitude) => {
-  return fetchServiceData(GEOCODEXYZ, latitude, longitude)
-}
+// export const getDataFromCoords = (latitude, longitude) => {
+//   return fetchServiceData(GEOCODEXYZ, latitude, longitude)
+// }
 
 export const getCoordsFromCityName = city => {
   return fetchServiceData(GEOCODEXYZ, city)

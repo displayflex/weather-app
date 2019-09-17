@@ -1,9 +1,17 @@
-import { call, put, all, takeEvery } from 'redux-saga/effects'
+import { call, put, all, takeEvery, select } from 'redux-saga/effects'
 
 import { getServiceUrl } from '@/utils/services'
-import { YANDEX } from '@/constants'
+import { GEOCODEXYZ, SET_LOCATION_PARAMS } from '@/constants'
+import {
+  setLocationData,
+  fetchCoordsSuccess,
+  fetchCoordsError,
+  fetchDataFromCoords,
+  fetchDataFromCoordsSuccess,
+  fetchDataFromCoordsError,
+} from '@/actions/location'
 
-const fetchGeolocationDataApi = () => {
+const fetchCoordsApi = () => {
   return new Promise((resolve, reject) => {
     window.ymaps.ready(() => {
       window.ymaps.geolocation
@@ -21,55 +29,64 @@ const fetchGeolocationDataApi = () => {
   })
 }
 
-function * fetchGeolocationData () {
-  const script = document.createElement('script')
+export const fetchServiceData = async (service, ...args) => {
+  const url = getServiceUrl(service, ...args)
 
+  if (!url) {
+    throw new Error('Service is not defined')
+  }
+
+  return new Promise((resolve, reject) => {
+    fetch(url)
+      .then(response => response.json())
+      .then(data => resolve(data))
+      .catch(error => reject(error))
+  })
+}
+
+export const fetchDataFromCoordsApi = (latitude, longitude) => {
+  return fetchServiceData(GEOCODEXYZ, latitude, longitude)
+}
+
+function * fetchCoordsSaga () {
   try {
-    script.src = getServiceUrl(YANDEX)
-    yield document.head.appendChild(script)
-    script.onload = yield put({ type: 'YANDEX_SCRIPT_LOADED' })
+    const response = yield call(fetchCoordsApi)
+
+    if (!response || !('geoObjects' in response)) {
+      throw new Error('Geolocation data not recieved')
+    }
+
+    const [latitude, longitude] = response.geoObjects.position
+    yield put(fetchCoordsSuccess({ latitude, longitude }))
   } catch (error) {
-    script.onerror = yield put({ type: 'YANDEX_SCRIPT_LOAD_FAILED', error }) // to actions???
-  }
-
-console.log(window.ymaps)
-  const { response, error } = yield call(fetchGeolocationDataApi)
-
-  if (response) {
-    console.log(response)
-    yield put({ type: 'GEOLOCATION_DATA_RECEIVED', data: response })
-  } else {
-    yield put({ type: 'GEOLOCATION_DATA_REQUEST_FAILED', error }) // @todo error?
+    yield put(fetchCoordsError())
   }
 }
 
-function * watchGetGeolocationData () {
-  yield takeEvery('GET_GEOLOCATION_DATA', fetchGeolocationData)
-}
-
-function * loadYandexScript () {
-  const script = document.createElement('script')
-
+function * fetchDataFromCoordsSaga (action) {
   try {
-    script.src = getServiceUrl(YANDEX)
-    yield document.head.appendChild(script)
-    script.onload = yield put({ type: 'YANDEX_SCRIPT_LOADED' })
+    const response = yield call(fetchDataFromCoordsApi, [
+      action.payload.latitude,
+      action.payload.longitude,
+    ])
+    yield put(fetchDataFromCoordsSuccess(response))
   } catch (error) {
-    script.onerror = yield put({ type: 'YANDEX_SCRIPT_LOAD_FAILED', error }) // to actions???
+    yield put(fetchDataFromCoordsError())
   }
 }
 
-function * watchLoadYandexScript () {
-  yield takeEvery('LOAD_YANDEX_SCRIPT', fetchGeolocationData)
+function * setLocationParams () {
+  yield * fetchCoordsSaga()
+  const { latitude, longitude } = yield select(state => state.location.coords)
+  yield * fetchDataFromCoordsSaga(fetchDataFromCoords({ latitude, longitude }))
+  const city = yield select(state => state.location.data.region)
+  yield put(setLocationData({ latitude, longitude, city }))
 }
 
-// @todo constants
+function * watchSetLocationParams () {
+  yield takeEvery(SET_LOCATION_PARAMS, setLocationParams)
+}
 
 export default function * () {
-  yield all([
-    fetchGeolocationData(),
-    watchGetGeolocationData(),
-    loadYandexScript(),
-    watchLoadYandexScript(),
-  ])
+  yield all([watchSetLocationParams()])
 }
