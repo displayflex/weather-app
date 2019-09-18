@@ -16,9 +16,3 @@ export default styled.div`
     }
   }
 `
-
-export const WrongDataParagraph = styled.p`
-  text-align: center;
-  font-size: ${props => props.theme.fontSizes.big};
-  margin-bottom: 40px;
-`

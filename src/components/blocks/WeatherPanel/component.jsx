@@ -1,23 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Icon } from 'antd'
 
 import CityLabel from '@/components/blocks/CityLabel'
 import WeatherWidget from '@/components/blocks/WeatherWidget'
 import SecondaryButton from '@/components/blocks/global/SecondaryButton'
 import { SETUP_PAGE_PATH } from '@/constants/paths'
-import Wrapper, { WrongDataParagraph } from './styles'
+import ErrorParagraph from '@/components/blocks/global/ErrorParagraph'
+import Wrapper from './styles'
 
 const WeatherPanel = ({ temperature, weather }) => {
   let content
 
   if (!temperature && !weather) {
-    content = (
-      <WrongDataParagraph>
-        <Icon type="warning" /> There is no data for your city. Try to change the setup.
-      </WrongDataParagraph>
-    )
+    const errorMessage = 'There is no data for your city. Try to change the setup.'
+    content = <ErrorParagraph message={errorMessage} />
   } else {
     content = (
       <>

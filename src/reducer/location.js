@@ -33,7 +33,6 @@ const location = (state = initialState, action) => {
           longitude: action.payload.longitude,
           latitude: action.payload.latitude,
         },
-        isErrorInLoad: true,
       }
 
     case SET_WEATHER_DATA:
