@@ -51,29 +51,6 @@ export const getServiceUrl = (service, ...args) => {
   }
 }
 
-export const fetchServiceData = async (service, ...args) => {
-  const url = getServiceUrl(service, ...args)
-
-  if (!url) {
-    throw new Error('Service is not defined')
-  }
-
-  return new Promise((resolve, reject) => {
-    fetch(url)
-      .then(response => response.json())
-      .then(data => resolve(data))
-      .catch(error => reject(error))
-  })
-}
-
-// export const getDataFromCoords = (latitude, longitude) => {
-//   return fetchServiceData(GEOCODEXYZ, latitude, longitude)
-// }
-
-export const getCoordsFromCityName = city => {
-  return fetchServiceData(GEOCODEXYZ, city)
-}
-
 // @todo recieve full data, not only iconId?
 const mapOpenWeatherImageUrl = iconId => {
   // @todo name?
@@ -113,9 +90,11 @@ const mapWeatherStackImageUrl = data => {
     Overcast: 'cloudy',
     Moderate: 'rainy-7',
     Rain: 'rainy-5',
+    'Rain Shower': 'rainy-7',
     'Partly cloudy': 'cloudy-day-1',
     'Light Rain Shower': 'rainy-4',
     'Light Rain': 'rainy-4',
+    'Light Rain Shower, Rain Shower': 'rainy-4',
     'Moderate or heavy rain shower': 'rainy-7',
     'Heavy rain shower': 'rainy-7',
   }

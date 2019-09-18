@@ -1,15 +1,17 @@
 import { call, put, all, takeEvery, select, throttle } from 'redux-saga/effects'
 
-import { getServiceUrl } from '@/utils/services'
-import { GEOCODEXYZ, SET_LOCATION_PARAMS, CHANGE_CITY_INPUT } from '@/constants'
+import { getServiceUrl, mapServiceData } from '@/utils/services'
+import { GEOCODEXYZ, SET_LOCATION_PARAMS, CHANGE_CITY_INPUT, SET_WEATHER_DATA } from '@/constants'
 import {
   setLocationData,
   fetchCoordsSuccess,
   fetchCoordsError,
   fetchDataFromCoords,
-  fetchDataFromCoordsSuccess,
-  fetchDataFromCoordsError,
+  fetchDataSuccess,
+  fetchDataError,
   setCityInputValue,
+  setWeatherDataSuccess,
+  setWeatherDataError,
 } from '@/actions/location'
 
 const fetchCoordsApi = () => {
@@ -30,7 +32,7 @@ const fetchCoordsApi = () => {
   })
 }
 
-export const fetchServiceData = async (service, ...args) => {
+const fetchServiceData = async (service, ...args) => {
   const url = getServiceUrl(service, ...args)
 
   if (!url) {
@@ -45,8 +47,12 @@ export const fetchServiceData = async (service, ...args) => {
   })
 }
 
-export const fetchDataFromCoordsApi = (latitude, longitude) => {
+const fetchDataFromCoordsApi = (latitude, longitude) => {
   return fetchServiceData(GEOCODEXYZ, latitude, longitude)
+}
+
+const fetchCoordsFromCityNameApi = city => {
+  return fetchServiceData(GEOCODEXYZ, city)
 }
 
 function * fetchCoordsSaga () {
@@ -70,13 +76,22 @@ function * fetchDataFromCoordsSaga (action) {
       action.payload.latitude,
       action.payload.longitude,
     ])
-    yield put(fetchDataFromCoordsSuccess(response))
+    yield put(fetchDataSuccess(response))
   } catch (error) {
-    yield put(fetchDataFromCoordsError())
+    yield put(fetchDataError())
   }
 }
 
-function * setLocationParams () {
+function * fetchCoordsFromCityNameSaga (action) {
+  try {
+    const response = yield call(fetchCoordsFromCityNameApi, action)
+    yield put(fetchDataSuccess(response))
+  } catch (error) {
+    yield put(fetchDataError())
+  }
+}
+
+function * setLocationParamsSaga () {
   yield * fetchCoordsSaga()
   const { latitude, longitude } = yield select(state => state.location.coords)
   yield * fetchDataFromCoordsSaga(fetchDataFromCoords({ latitude, longitude }))
@@ -84,18 +99,47 @@ function * setLocationParams () {
   yield put(setLocationData({ latitude, longitude, city }))
 }
 
-function * handleInputChange (action) {
+function * handleInputChangeSaga (action) {
   yield put(setCityInputValue(action.payload))
 }
 
+function * setWeatherDataSaga (action) {
+  let latitude
+  let longitude
+
+  if (action.payload) {
+    const city = action.payload
+    yield * fetchCoordsFromCityNameSaga(city)
+    latitude = yield select(state => state.location.data.latt)
+    longitude = yield select(state => state.location.data.longt)
+    yield put(setLocationData({ latitude, longitude, city }))
+  } else {
+    latitude = yield select(state => state.location.coords.latitude)
+    longitude = yield select(state => state.location.coords.longitude)
+  }
+
+  const service = yield select(state => state.services.current)
+
+  try {
+    const data = yield call(fetchServiceData, service, latitude, longitude)
+    yield put(setWeatherDataSuccess(mapServiceData(service, data)))
+  } catch (error) {
+    yield put(setWeatherDataError())
+  }
+}
+
 function * watchSetLocationParams () {
-  yield takeEvery(SET_LOCATION_PARAMS, setLocationParams)
+  yield takeEvery(SET_LOCATION_PARAMS, setLocationParamsSaga)
 }
 
 function * watchChangeCityInput () {
-  yield throttle(500, CHANGE_CITY_INPUT, handleInputChange)
+  yield throttle(500, CHANGE_CITY_INPUT, handleInputChangeSaga)
+}
+
+function * watchSetWeatherData () {
+  yield takeEvery(SET_WEATHER_DATA, setWeatherDataSaga)
 }
 
 export default function * () {
-  yield all([watchSetLocationParams(), watchChangeCityInput()])
+  yield all([watchSetLocationParams(), watchChangeCityInput(), watchSetWeatherData()])
 }

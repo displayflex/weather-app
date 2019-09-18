@@ -1,11 +1,13 @@
 import {
   SET_LOCATION_DATA,
   SET_CITY_INPUT_VALUE,
-  SET_WEATHER_DATA,
+  SET_WEATHER_DATA_SUCCESS,
+  SET_WEATHER_DATA_ERROR,
   FETCH_COORDS_SUCCESS,
   FETCH_COORDS_ERROR,
-  FETCH_DATA_FROM_COORDS_SUCCESS,
-  FETCH_DATA_FROM_COORDS_ERROR,
+  FETCH_DATA_SUCCESS,
+  FETCH_DATA_ERROR,
+  RESET_IS_WEATHER_DATA_SET,
 } from '@/constants/actions'
 
 const initialState = {
@@ -20,6 +22,7 @@ const initialState = {
   weatherImageSrc: '',
   data: null,
   isErrorInLoad: false,
+  isWeatherDataSet: false,
 }
 
 const location = (state = initialState, action) => {
@@ -35,12 +38,19 @@ const location = (state = initialState, action) => {
         },
       }
 
-    case SET_WEATHER_DATA:
+    case SET_WEATHER_DATA_SUCCESS:
       return {
         ...state,
         temperature: action.payload.temperature,
         weather: action.payload.weather,
         weatherImageSrc: action.payload.weatherImageSrc,
+        isWeatherDataSet: true,
+      }
+
+    case SET_WEATHER_DATA_ERROR:
+      return {
+        ...state,
+        isErrorInLoad: true,
       }
 
     case SET_CITY_INPUT_VALUE:
@@ -65,16 +75,22 @@ const location = (state = initialState, action) => {
         isErrorInLoad: true,
       }
 
-    case FETCH_DATA_FROM_COORDS_SUCCESS:
+    case FETCH_DATA_SUCCESS:
       return {
         ...state,
         data: action.payload,
       }
 
-    case FETCH_DATA_FROM_COORDS_ERROR:
+    case FETCH_DATA_ERROR:
       return {
         ...state,
         isErrorInLoad: true,
+      }
+
+    case RESET_IS_WEATHER_DATA_SET:
+      return {
+        ...state,
+        isWeatherDataSet: false,
       }
 
     default:
