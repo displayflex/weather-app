@@ -5,12 +5,6 @@ export default styled.div`
     width: 100%;
   }
 
-  p {
-    text-align: center;
-    font-size: ${props => props.theme.fontSizes.big};
-    margin-bottom: 40px;
-  }
-
   @media (min-width: ${props => props.theme.width.tablet}) {
     button {
       display: block;
@@ -21,4 +15,10 @@ export default styled.div`
       padding-right: 30px;
     }
   }
+`
+
+export const WrongDataParagraph = styled.p`
+  text-align: center;
+  font-size: ${props => props.theme.fontSizes.big};
+  margin-bottom: 40px;
 `

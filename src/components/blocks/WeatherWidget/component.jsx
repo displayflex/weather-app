@@ -1,15 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Wrapper from './styles'
+import Wrapper, {
+  WeatherImage,
+  WeatherInfoWrapper,
+  Temperature,
+  WeatherDescription,
+} from './styles'
 
 const WeatherWidget = ({ temperature, weather, weatherImageSrc }) => (
   <Wrapper>
-    <div>
-      <b>{temperature} &#176; c</b>
-      <span>{weather}</span>
-    </div>
-    <img src={weatherImageSrc} alt={weather} />
+    <WeatherInfoWrapper>
+      <Temperature>{temperature} &#176; c</Temperature>
+      <WeatherDescription>{weather}</WeatherDescription>
+    </WeatherInfoWrapper>
+    <WeatherImage src={weatherImageSrc} alt={weather} />
   </Wrapper>
 )
 

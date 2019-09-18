@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Select from '@/components/blocks/global/Select'
 import allServices from '@/services.json'
-import Wrapper from './styles'
+import Wrapper, { ServiceSelectLabel } from './styles'
 
 const ServiceSelectField = ({ currentService, changeService }) => {
   const { Option } = Select
@@ -18,7 +18,7 @@ const ServiceSelectField = ({ currentService, changeService }) => {
 
   return (
     <Wrapper>
-      <label htmlFor="service">Weather Service:</label>
+      <ServiceSelectLabel htmlFor="service">Weather Service:</ServiceSelectLabel>
       <Select
         id="service"
         defaultValue={currentService || allServices[0].id}
