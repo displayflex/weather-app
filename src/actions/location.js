@@ -1,6 +1,7 @@
 import {
   SET_LOCATION_DATA,
   SET_WEATHER_DATA,
+  CHANGE_CITY_INPUT,
   SET_CITY_INPUT_VALUE,
   SET_LOCATION_PARAMS,
   FETCH_COORDS_SUCCESS,
@@ -18,6 +19,11 @@ export const setLocationData = payload => ({
 export const setWeatherData = payload => ({
   payload,
   type: SET_WEATHER_DATA,
+})
+
+export const changeCityInput = payload => ({
+  payload,
+  type: CHANGE_CITY_INPUT,
 })
 
 export const setCityInputValue = payload => ({

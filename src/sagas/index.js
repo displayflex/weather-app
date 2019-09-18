@@ -1,7 +1,7 @@
-import { call, put, all, takeEvery, select } from 'redux-saga/effects'
+import { call, put, all, takeEvery, select, throttle } from 'redux-saga/effects'
 
 import { getServiceUrl } from '@/utils/services'
-import { GEOCODEXYZ, SET_LOCATION_PARAMS } from '@/constants'
+import { GEOCODEXYZ, SET_LOCATION_PARAMS, CHANGE_CITY_INPUT } from '@/constants'
 import {
   setLocationData,
   fetchCoordsSuccess,
@@ -9,6 +9,7 @@ import {
   fetchDataFromCoords,
   fetchDataFromCoordsSuccess,
   fetchDataFromCoordsError,
+  setCityInputValue,
 } from '@/actions/location'
 
 const fetchCoordsApi = () => {
@@ -83,10 +84,18 @@ function * setLocationParams () {
   yield put(setLocationData({ latitude, longitude, city }))
 }
 
+function * handleInputChange (action) {
+  yield put(setCityInputValue(action.payload))
+}
+
 function * watchSetLocationParams () {
   yield takeEvery(SET_LOCATION_PARAMS, setLocationParams)
 }
 
+function * watchChangeCityInput () {
+  yield throttle(500, CHANGE_CITY_INPUT, handleInputChange)
+}
+
 export default function * () {
-  yield all([watchSetLocationParams()])
+  yield all([watchSetLocationParams(), watchChangeCityInput()])
 }
