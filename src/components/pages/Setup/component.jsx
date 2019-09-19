@@ -1,62 +1,60 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Redirect } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 
 import StandardLayout from '@/components/layouts/Standard'
 import SetupPanel from '@/components/forms/SetupPanel'
 import Loader from '@/components/blocks/global/Loader'
-import { loadYandexScript, getGeolocationData, getDataFromCoords } from '@/utils/services'
-import { ERROR_PAGE_PATH } from '@/constants/paths'
+import ErrorParagraph from '@/components/blocks/global/ErrorParagraph'
+import { getServiceUrl } from '@/utils/services'
+import { YANDEX } from '@/constants'
 
 class SetupPage extends Component {
   state = {
-    isScriptLoading: true,
     isScriptLoadedWithError: false,
   }
 
-  componentDidMount () {
-    const scriptSuccesLoadHandler = () => {
-      getGeolocationData().then(
-        responseData => {
-          const [longitude, latitude] = responseData.geoObjects.position
-
-          // @todo .then in .then??
-          getDataFromCoords(longitude, latitude).then(data => {
-            this.props.setLocationData({
-              longitude: longitude,
-              latitude: latitude,
-              city: data.region,
-            })
-
-            this.setState({ isScriptLoading: false })
-          })
-        },
-        () => {
-          this.setState({ isScriptLoadedWithError: true })
-        }
-      )
+  handleScriptInject = ({ scriptTags }) => {
+    if (scriptTags) {
+      const [scriptTag] = scriptTags
+      scriptTag.onload = this.handleScriptLoad
+      scriptTag.onerror = this.handleScriptLoadError
     }
+  }
 
-    const scriptErrorLoadHandler = () => {
-      this.setState({ isScriptLoadedWithError: true })
-    }
+  handleScriptLoad = () => {
+    this.props.setLocationParams()
+  }
 
-    loadYandexScript(scriptSuccesLoadHandler, scriptErrorLoadHandler)
+  handleScriptLoadError = () => {
+    this.setState({ isScriptLoadedWithError: true })
   }
 
   render () {
-    if (this.state.isScriptLoadedWithError) {
-      return <Redirect to={ERROR_PAGE_PATH} />
+    let content
+
+    if (this.state.isScriptLoadedWithError || this.props.isErrorInLoad) {
+      const message = 'Something went wrong.'
+      content = <ErrorParagraph message={message} />
+    } else {
+      content = this.props.cityName ? <SetupPanel /> : <Loader />
     }
 
     return (
-      <StandardLayout>{this.state.isScriptLoading ? <Loader /> : <SetupPanel />}</StandardLayout>
+      <>
+        <Helmet onChangeClientState={(newState, addedTags) => this.handleScriptInject(addedTags)}>
+          <script src={getServiceUrl(YANDEX)} />
+        </Helmet>
+        <StandardLayout>{content}</StandardLayout>
+      </>
     )
   }
 }
 
 SetupPage.propTypes = {
-  setLocationData: PropTypes.func.isRequired,
+  isErrorInLoad: PropTypes.bool.isRequired,
+  cityName: PropTypes.string.isRequired,
+  setLocationParams: PropTypes.func.isRequired,
 }
 
 export default SetupPage

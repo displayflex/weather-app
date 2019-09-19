@@ -34,21 +34,3 @@ export const getStore = () => {
 
   return store
 }
-
-// state = {
-//   services: {
-//     current: 'OPEN_WEATHER',
-//   },
-//   location: {
-//     city: '',
-//     cityInputValue: '',
-//     coords: {
-//       longitude: 0,
-//       latitude: 0,
-//     },
-//     temperature: 0,
-//     weather: '',
-//     imageSrc: ''
-//   },
-//   date: 1568032519075,
-// }

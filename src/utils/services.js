@@ -7,25 +7,7 @@ import {
 } from '@/constants/endpoints'
 import { YANDEX, OPEN_WEATHER, WEATHERSTACK, GEOCODEXYZ } from '@/constants/services'
 
-export const getGeolocationData = () => {
-  return new Promise((resolve, reject) => {
-    window.ymaps.ready(() => {
-      window.ymaps.geolocation
-        .get({
-          provider: 'auto',
-          autoReverseGeocode: false,
-        })
-        .then(
-          result => {
-            resolve(result)
-          },
-          error => reject(error)
-        )
-    })
-  })
-}
-
-const getServiceUrl = (service, ...args) => {
+export const getServiceUrl = (service, ...args) => {
   let apikey
 
   switch (service) {
@@ -55,48 +37,18 @@ const getServiceUrl = (service, ...args) => {
       return `${URL_YANDEX_API}/2.1/?lang=en_RU&amp;apikey=${apikey}`
 
     case GEOCODEXYZ:
+      apikey = process.env.REACT_APP_API_KEY_GEOCODEXYZ
+
       if (args.length === 2) {
-        return `${URL_GEOCODEXYZ}/${args[0]},${args[1]}?json=1`
+        return `${URL_GEOCODEXYZ}/${args[0]},${args[1]}?json=1&auth=${apikey}`
       } else if (args.length === 1) {
-        return `${URL_GEOCODEXYZ}/${args[0]}?json=1`
+        return `${URL_GEOCODEXYZ}/${args[0]}?json=1&auth=${apikey}`
       }
       break
 
     default:
       return null
   }
-}
-
-export const loadYandexScript = (onDone, onError) => {
-  const script = document.createElement('script')
-  script.onload = onDone
-  script.onerror = onError
-  script.src = getServiceUrl(YANDEX)
-
-  document.head.appendChild(script)
-}
-
-export const fetchServiceData = async (service, ...args) => {
-  const url = getServiceUrl(service, ...args)
-
-  if (!url) {
-    throw new Error('Service is not defined')
-  }
-
-  return new Promise((resolve, reject) => {
-    fetch(url)
-      .then(response => response.json())
-      .then(data => resolve(data))
-      .catch(error => reject(error))
-  })
-}
-
-export const getDataFromCoords = (latitude, longitude) => {
-  return fetchServiceData(GEOCODEXYZ, latitude, longitude)
-}
-
-export const getCoordsFromCityName = city => {
-  return fetchServiceData(GEOCODEXYZ, city)
 }
 
 // @todo recieve full data, not only iconId?
@@ -138,9 +90,11 @@ const mapWeatherStackImageUrl = data => {
     Overcast: 'cloudy',
     Moderate: 'rainy-7',
     Rain: 'rainy-5',
+    'Rain Shower': 'rainy-7',
     'Partly cloudy': 'cloudy-day-1',
     'Light Rain Shower': 'rainy-4',
     'Light Rain': 'rainy-4',
+    'Light Rain Shower, Rain Shower': 'rainy-4',
     'Moderate or heavy rain shower': 'rainy-7',
     'Heavy rain shower': 'rainy-7',
   }

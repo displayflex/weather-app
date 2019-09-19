@@ -1,18 +1,18 @@
 import { connect } from 'react-redux'
-import SetupPage from '@/components/pages/Setup/component'
-import { setLocationData } from '@/actions/location'
 
-// const mapStateToProps = state => ({
-//   city: state.location.city,
-//   isLoading: state.loading.isLoading,
-// })
+import SetupPage from '@/components/pages/Setup/component'
+import { setLocationParams } from '@/actions/location'
+
+const mapStateToProps = state => ({
+  isErrorInLoad: state.location.isErrorInLoad,
+  cityName: state.location.cityName,
+})
 
 const mapDispatchToProps = dispatch => ({
-  setLocationData: payload => dispatch(setLocationData(payload)),
+  setLocationParams: () => dispatch(setLocationParams()),
 })
 
 export default connect(
-  // mapStateToProps,
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SetupPage)

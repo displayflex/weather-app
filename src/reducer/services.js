@@ -1,8 +1,9 @@
 import { CHANGE_SERVICE } from '@/constants/actions'
 import allServices from '@/services.json'
+import { OPEN_WEATHER } from '@/constants'
 
 const initialState = {
-  current: 'OPEN_WEATHER',
+  current: OPEN_WEATHER,
 }
 
 const services = (state = initialState, action) => {
@@ -14,7 +15,9 @@ const services = (state = initialState, action) => {
           current: action.payload.id,
         }
       }
+
       return state
+
     default:
       return state
   }

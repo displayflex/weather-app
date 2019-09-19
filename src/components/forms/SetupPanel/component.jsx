@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
@@ -6,62 +6,43 @@ import CitySearchField from '@/components/forms/CitySearchField'
 import ServiceSelectField from '@/components/forms/ServiceSelectField'
 import PrimaryButton from '@/components/blocks/global/PrimaryButton'
 import Loader from '@/components/blocks/global/Loader'
-import { getCoordsFromCityName, fetchServiceData, mapServiceData } from '@/utils/services'
 import { WEATHER_PAGE_PATH } from '@/constants/paths'
 import Form from './styles'
 
 const SetupPanel = ({
-  service,
-  city,
-  latitude,
-  longitude,
+  cityName,
   cityInputValue,
-  setLocationData,
+  isWeatherDataSet,
   setWeatherData,
+  resetIsWeatherDataSet,
 }) => {
   const [isLoading, switchIsLoading] = useState(false)
-  const [isDataRecieved, switchIsDataRecieved] = useState(false)
+
+  useEffect(() => {
+    resetIsWeatherDataSet()
+  })
 
   const handleResultButtonClick = evt => {
     evt.preventDefault()
 
-    if (!city || !cityInputValue) {
+    if (!cityName || !cityInputValue) {
       return
     }
 
     switchIsLoading(prevIsLoading => !prevIsLoading)
 
-    if (cityInputValue && cityInputValue !== city) {
-      getCoordsFromCityName(cityInputValue).then(responseData => {
-        const latitude = responseData.latt
-        const longitude = responseData.longt
-
-        setLocationData({
-          latitude,
-          longitude,
-          city: cityInputValue,
-        })
-
-        // @todo .then in .then ??
-        fetchServiceData(service, latitude, longitude).then(data => {
-          setWeatherData(mapServiceData(service, data))
-          switchIsDataRecieved(prevIsDataRecieved => !prevIsDataRecieved)
-        })
-      })
-    } else if (city) {
-      // @todo get rid of code repeat?
-      fetchServiceData(service, latitude, longitude).then(data => {
-        setWeatherData(mapServiceData(service, data))
-        switchIsDataRecieved(prevIsDataRecieved => !prevIsDataRecieved)
-      })
+    if (cityInputValue !== cityName) {
+      setWeatherData(cityInputValue)
+    } else if (cityName) {
+      setWeatherData()
     }
   }
 
-  if (isLoading && !isDataRecieved) {
+  if (isLoading && !isWeatherDataSet) {
     return <Loader />
   }
 
-  if (isDataRecieved) {
+  if (isWeatherDataSet) {
     return <Redirect to={WEATHER_PAGE_PATH} />
   }
 
@@ -81,13 +62,11 @@ const SetupPanel = ({
 }
 
 SetupPanel.propTypes = {
-  service: PropTypes.string.isRequired,
-  city: PropTypes.string,
+  cityName: PropTypes.string,
   cityInputValue: PropTypes.string,
-  latitude: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  longitude: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  setLocationData: PropTypes.func.isRequired,
+  isWeatherDataSet: PropTypes.bool.isRequired,
   setWeatherData: PropTypes.func.isRequired,
+  resetIsWeatherDataSet: PropTypes.func.isRequired,
 }
 
 export default SetupPanel

@@ -1,18 +1,16 @@
 import { connect } from 'react-redux'
 import SetupPanel from '@/components/forms/SetupPanel/component'
-import { setLocationData, setWeatherData } from '@/actions/location'
+import { setWeatherData, resetIsWeatherDataSet } from '@/actions/location'
 
 const mapStateToProps = state => ({
-  city: state.location.city,
+  cityName: state.location.cityName,
   cityInputValue: state.location.cityInputValue,
-  service: state.services.current,
-  latitude: state.location.coords.latitude,
-  longitude: state.location.coords.longitude,
+  isWeatherDataSet: state.location.isWeatherDataSet,
 })
 
 const mapDispatchToProps = dispatch => ({
-  setLocationData: payload => dispatch(setLocationData(payload)),
   setWeatherData: payload => dispatch(setWeatherData(payload)),
+  resetIsWeatherDataSet: () => dispatch(resetIsWeatherDataSet()),
 })
 
 export default connect(
