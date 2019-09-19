@@ -5,7 +5,7 @@ import { setLocationParams } from '@/actions/location'
 
 const mapStateToProps = state => ({
   isErrorInLoad: state.location.isErrorInLoad,
-  city: state.location.city,
+  cityName: state.location.cityName,
 })
 
 const mapDispatchToProps = dispatch => ({

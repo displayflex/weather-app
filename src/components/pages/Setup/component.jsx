@@ -37,7 +37,7 @@ class SetupPage extends Component {
       const message = 'Something went wrong.'
       content = <ErrorParagraph message={message} />
     } else {
-      content = this.props.city ? <SetupPanel /> : <Loader />
+      content = this.props.cityName ? <SetupPanel /> : <Loader />
     }
 
     return (
@@ -53,7 +53,7 @@ class SetupPage extends Component {
 
 SetupPage.propTypes = {
   isErrorInLoad: PropTypes.bool.isRequired,
-  city: PropTypes.string.isRequired,
+  cityName: PropTypes.string.isRequired,
   setLocationParams: PropTypes.func.isRequired,
 }
 

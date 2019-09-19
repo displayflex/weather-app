@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import CityLabel from '@/components/blocks/CityLabel/component'
 
 const mapStateToProps = state => ({
-  city: state.location.city,
+  cityName: state.location.cityName,
 })
 
 export default connect(mapStateToProps)(CityLabel)

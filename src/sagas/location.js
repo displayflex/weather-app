@@ -64,8 +64,8 @@ function * setLocationParamsSaga () {
   yield * fetchCoordsSaga()
   const { latitude, longitude } = yield select(state => state.location.coords)
   yield * fetchDataFromCoordsSaga(fetchDataFromCoords({ latitude, longitude }))
-  const city = yield select(state => state.location.data.region)
-  yield put(setLocationData({ latitude, longitude, city }))
+  const cityName = yield select(state => state.location.data.region)
+  yield put(setLocationData({ latitude, longitude, cityName }))
 }
 
 function * watchSetLocationParams () {

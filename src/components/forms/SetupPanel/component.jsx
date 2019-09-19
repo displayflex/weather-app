@@ -10,7 +10,7 @@ import { WEATHER_PAGE_PATH } from '@/constants/paths'
 import Form from './styles'
 
 const SetupPanel = ({
-  city,
+  cityName,
   cityInputValue,
   isWeatherDataSet,
   setWeatherData,
@@ -25,15 +25,15 @@ const SetupPanel = ({
   const handleResultButtonClick = evt => {
     evt.preventDefault()
 
-    if (!city || !cityInputValue) {
+    if (!cityName || !cityInputValue) {
       return
     }
 
     switchIsLoading(prevIsLoading => !prevIsLoading)
 
-    if (cityInputValue && cityInputValue !== city) {
+    if (cityInputValue !== cityName) {
       setWeatherData(cityInputValue)
-    } else if (city) {
+    } else if (cityName) {
       setWeatherData()
     }
   }
@@ -62,7 +62,7 @@ const SetupPanel = ({
 }
 
 SetupPanel.propTypes = {
-  city: PropTypes.string,
+  cityName: PropTypes.string,
   cityInputValue: PropTypes.string,
   isWeatherDataSet: PropTypes.bool.isRequired,
   setWeatherData: PropTypes.func.isRequired,

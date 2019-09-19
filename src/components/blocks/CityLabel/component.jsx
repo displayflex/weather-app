@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 
 import Header from './styles'
 
-const CityLabel = ({ city }) => <Header>{city}</Header>
+const CityLabel = ({ cityName }) => <Header>{cityName}</Header>
 
 CityLabel.propTypes = {
-  city: PropTypes.string,
+  cityName: PropTypes.string,
 }
 
 export default CityLabel

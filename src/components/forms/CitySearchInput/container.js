@@ -3,7 +3,7 @@ import CitySearchInput from '@/components/forms/CitySearchInput/component'
 import { changeCityInput } from '@/actions/location'
 
 const mapStateToProps = state => ({
-  city: state.location.city,
+  cityName: state.location.cityName,
 })
 
 const mapDispatchToProps = dispatch => ({

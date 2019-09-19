@@ -11,7 +11,7 @@ import {
 } from '@/constants/actions'
 
 const initialState = {
-  city: '',
+  cityName: '',
   cityInputValue: '',
   coords: {
     latitude: null,
@@ -30,7 +30,7 @@ const location = (state = initialState, action) => {
     case SET_LOCATION_DATA:
       return {
         ...state,
-        city: action.payload.city,
+        cityName: action.payload.cityName,
         coords: {
           ...state.coords,
           longitude: action.payload.longitude,

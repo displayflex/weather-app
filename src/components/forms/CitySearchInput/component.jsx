@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Input from './styles'
 
-const CitySearchInput = ({ city, changeCityInput }) => {
+const CitySearchInput = ({ cityName, changeCityInput }) => {
   const inputEl = useRef(null)
   useEffect(() => {
     changeCityInput(inputEl.current.input.value)
@@ -18,12 +18,12 @@ const CitySearchInput = ({ city, changeCityInput }) => {
       ref={inputEl}
       placeholder="Type your city here..."
       onChange={handleInputChange}
-      defaultValue={city} />
+      defaultValue={cityName} />
   )
 }
 
 CitySearchInput.propTypes = {
-  city: PropTypes.string,
+  cityName: PropTypes.string,
   changeCityInput: PropTypes.func.isRequired,
 }
 

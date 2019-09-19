@@ -29,11 +29,11 @@ function * setWeatherDataSaga (action) {
   let longitude
 
   if (action.payload) {
-    const city = action.payload
-    yield * fetchCoordsFromCityNameSaga(city)
+    const cityName = action.payload
+    yield * fetchCoordsFromCityNameSaga(cityName)
     latitude = yield select(state => state.location.data.latt)
     longitude = yield select(state => state.location.data.longt)
-    yield put(setLocationData({ latitude, longitude, city }))
+    yield put(setLocationData({ latitude, longitude, cityName }))
   } else {
     latitude = yield select(state => state.location.coords.latitude)
     longitude = yield select(state => state.location.coords.longitude)
