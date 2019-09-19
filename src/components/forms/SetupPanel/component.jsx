@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import localforage from 'localforage'
 
 import CitySearchField from '@/components/forms/CitySearchField'
 import ServiceSelectField from '@/components/forms/ServiceSelectField'
 import PrimaryButton from '@/components/blocks/global/PrimaryButton'
 import Loader from '@/components/blocks/global/Loader'
 import { WEATHER_PAGE_PATH } from '@/constants/paths'
+import { isTimeLimitElapsed } from '@/utils/storage'
 import Form from './styles'
 
 const SetupPanel = ({
@@ -15,11 +17,25 @@ const SetupPanel = ({
   isWeatherDataSet,
   setWeatherData,
   resetIsWeatherDataSet,
+  setDataFromStorage,
 }) => {
   const [isLoading, switchIsLoading] = useState(false)
 
   useEffect(() => {
     resetIsWeatherDataSet()
+  })
+
+  useEffect(() => {
+    localforage.getItem('weatherAppData', (err, storageData) => {
+      console.log('STORAGE DATA', storageData)
+      if (err) {
+        return
+      }
+
+      if (storageData && !isTimeLimitElapsed(storageData.clientDate)) {
+        setDataFromStorage(storageData)
+      }
+    })
   })
 
   const handleResultButtonClick = evt => {
@@ -67,6 +83,7 @@ SetupPanel.propTypes = {
   isWeatherDataSet: PropTypes.bool.isRequired,
   setWeatherData: PropTypes.func.isRequired,
   resetIsWeatherDataSet: PropTypes.func.isRequired,
+  setDataFromStorage: PropTypes.func.isRequired,
 }
 
 export default SetupPanel

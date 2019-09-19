@@ -4,6 +4,7 @@ import { getServiceUrl } from '@/utils/services'
 import watchChangeCityInput from './input'
 import watchSetLocationParams from './location'
 import watchSetWeatherData from './weather'
+import watchSetDataToStorage from './storage'
 
 export const fetchServiceData = async (service, ...args) => {
   const url = getServiceUrl(service, ...args)
@@ -20,5 +21,10 @@ export const fetchServiceData = async (service, ...args) => {
   })
 }
 export default function * () {
-  yield all([watchSetLocationParams(), watchChangeCityInput(), watchSetWeatherData()])
+  yield all([
+    watchSetLocationParams(),
+    watchChangeCityInput(),
+    watchSetWeatherData(),
+    watchSetDataToStorage(),
+  ])
 }

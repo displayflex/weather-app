@@ -12,6 +12,7 @@ import {
   FETCH_DATA_SUCCESS,
   FETCH_DATA_ERROR,
   RESET_IS_WEATHER_DATA_SET,
+  SET_DATA_FROM_STORAGE,
 } from '@/constants/actions'
 
 export const setLocationData = payload => ({
@@ -72,4 +73,9 @@ export const fetchDataError = () => ({
 
 export const resetIsWeatherDataSet = () => ({
   type: RESET_IS_WEATHER_DATA_SET,
+})
+
+export const setDataFromStorage = payload => ({
+  payload,
+  type: SET_DATA_FROM_STORAGE,
 })

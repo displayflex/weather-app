@@ -8,6 +8,7 @@ import {
   FETCH_DATA_SUCCESS,
   FETCH_DATA_ERROR,
   RESET_IS_WEATHER_DATA_SET,
+  SET_DATA_FROM_STORAGE,
 } from '@/constants/actions'
 
 const initialState = {
@@ -91,6 +92,16 @@ const location = (state = initialState, action) => {
       return {
         ...state,
         isWeatherDataSet: false,
+      }
+
+    case SET_DATA_FROM_STORAGE:
+      return {
+        ...state,
+        cityName: action.payload.cityName,
+        temperature: action.payload.temperature,
+        weather: action.payload.weather,
+        weatherImageSrc: action.payload.weatherImageSrc,
+        isWeatherDataSet: true,
       }
 
     default:

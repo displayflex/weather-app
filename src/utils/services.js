@@ -40,9 +40,9 @@ export const getServiceUrl = (service, ...args) => {
       apikey = process.env.REACT_APP_API_KEY_GEOCODEXYZ
 
       if (args.length === 2) {
-        return `${URL_GEOCODEXYZ}/${args[0]},${args[1]}?json=1&auth=${apikey}`
+        return `${URL_GEOCODEXYZ}/${args[0]},${args[1]}?json=1`
       } else if (args.length === 1) {
-        return `${URL_GEOCODEXYZ}/${args[0]}?json=1&auth=${apikey}`
+        return `${URL_GEOCODEXYZ}/${args[0]}?json=1`
       }
       break
 

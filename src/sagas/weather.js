@@ -7,6 +7,7 @@ import {
   setWeatherDataSuccess,
   setWeatherDataError,
 } from '@/actions/location'
+import { setDataToStorage } from '@/actions/storage'
 import { fetchServiceData } from '.'
 import { mapServiceData } from '@/utils/services'
 import { GEOCODEXYZ, SET_WEATHER_DATA } from '@/constants'
@@ -47,6 +48,8 @@ function * setWeatherDataSaga (action) {
   } catch (error) {
     yield put(setWeatherDataError())
   }
+
+  yield put(setDataToStorage())
 }
 
 function * watchSetWeatherData () {
