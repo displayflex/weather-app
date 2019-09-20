@@ -8,7 +8,7 @@ import ServiceSelectField from '@/components/forms/ServiceSelectField'
 import PrimaryButton from '@/components/blocks/global/PrimaryButton'
 import Loader from '@/components/blocks/global/Loader'
 import { WEATHER_PAGE_PATH } from '@/constants/paths'
-import { isTimeLimitElapsed } from '@/utils/storage'
+import { isCacheingTimeElapsed } from '@/utils/storage'
 import Form from './styles'
 
 const SetupPanel = ({
@@ -27,12 +27,11 @@ const SetupPanel = ({
 
   useEffect(() => {
     localforage.getItem('weatherAppData', (err, storageData) => {
-      console.log('STORAGE DATA', storageData)
       if (err) {
         return
       }
 
-      if (storageData && !isTimeLimitElapsed(storageData.clientDate)) {
+      if (storageData && !isCacheingTimeElapsed(storageData.clientDate)) {
         setDataFromStorage(storageData)
       }
     })
