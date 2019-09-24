@@ -37,12 +37,16 @@ export const getServiceUrl = (service, ...args) => {
       return `${URL_YANDEX_API}/2.1/?lang=en_RU&amp;apikey=${apikey}`
 
     case GEOCODEXYZ:
-      apikey = process.env.REACT_APP_API_KEY_GEOCODEXYZ
+      //
 
+      /**
+       * apikey = process.env.REACT_APP_API_KEY_GEOCODEXYZ
+       * Add &auth=${apikey} to the end of url to authorize.
+       */
       if (args.length === 2) {
-        return `${URL_GEOCODEXYZ}/${args[0]},${args[1]}?json=1&auth=${apikey}`
+        return `${URL_GEOCODEXYZ}/${args[0]},${args[1]}?json=1`
       } else if (args.length === 1) {
-        return `${URL_GEOCODEXYZ}/${args[0]}?json=1&auth=${apikey}`
+        return `${URL_GEOCODEXYZ}/${args[0]}?json=1`
       }
       break
 

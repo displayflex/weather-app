@@ -1,5 +1,5 @@
 const CACHE_NAME = 'v1'
-const urlsToCache = ['/', '/weather']
+const urlsToCache = ['/', '/weather', '/index.html', '/favicon.ico']
 
 self.addEventListener('install', function (event) {
   event.waitUntil(
@@ -29,6 +29,10 @@ self.addEventListener('fetch', function (event) {
   event.respondWith(
     caches.open(CACHE_NAME).then(function (cache) {
       return cache.match(event.request).then(function (response) {
+        if (!(event.request.url.indexOf('http') === 0)) {
+          return response
+        }
+
         return (
           response ||
           fetch(event.request).then(function (response) {
