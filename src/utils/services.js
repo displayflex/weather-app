@@ -55,9 +55,8 @@ export const getServiceUrl = (service, ...args) => {
   }
 }
 
-// @todo recieve full data, not only iconId?
-const mapOpenWeatherImageUrl = iconId => {
-  // @todo name?
+const mapOpenWeatherDataToImageUrl = data => {
+  const iconId = data.weather[0].icon
   const iconList = {
     '01d': 'day',
     '01n': 'night',
@@ -84,9 +83,8 @@ const mapOpenWeatherImageUrl = iconId => {
   return `${URL_OPENWEATHER}/img/wn/${iconId}@2x.png`
 }
 
-const mapWeatherStackImageUrl = data => {
-  const [weather] = data.current.weather_descriptions
-  // @todo name?
+const mapWeatherStackDataToImageUrl = data => {
+  const [currentWeather] = data.current.weather_descriptions
   const weatherList = {
     Sunny: 'day',
     Clear: 'night',
@@ -94,6 +92,7 @@ const mapWeatherStackImageUrl = data => {
     Overcast: 'cloudy',
     Moderate: 'rainy-7',
     Rain: 'rainy-5',
+    Mist: 'rainy-4',
     'Rain Shower': 'rainy-7',
     'Partly cloudy': 'cloudy-day-1',
     'Light Rain Shower': 'rainy-4',
@@ -102,6 +101,8 @@ const mapWeatherStackImageUrl = data => {
     'Moderate or heavy rain shower': 'rainy-7',
     'Heavy rain shower': 'rainy-7',
     'Light Rain With Thunderstorm': 'thunder',
+    'Light Drizzle, Mist': 'rainy-4',
+    'Light Drizzle': 'rainy-4',
   }
 
   const commonWeatherList = {
@@ -112,14 +113,14 @@ const mapWeatherStackImageUrl = data => {
     snow: 'snowy-5',
   }
 
-  if (weather in weatherList) {
-    return `/icons/${weatherList[weather]}.svg`
-  } else if (Object.keys(commonWeatherList).indexOf(weather.toLowerCase()) !== -1) {
-    // @todo check if it's working and simplify it
-    const index = Object.keys(commonWeatherList).indexOf(weather.toLowerCase())
-    const key = commonWeatherList[index]
+  if (currentWeather in weatherList) {
+    return `/icons/${weatherList[currentWeather]}.svg`
+  }
 
-    return `/icons/${commonWeatherList[key]}.svg`
+  const weatherName = Object.keys(commonWeatherList).find(it => currentWeather.indexOf(it) !== -1)
+
+  if (weatherName) {
+    return `/icons/${commonWeatherList[weatherName]}.svg`
   }
 
   return data.current.weather_icons[0]
@@ -180,14 +181,14 @@ export const mapServiceData = (service, data) => {
       return {
         temperature: data.main.temp.toFixed(1),
         weather: data.weather[0].main,
-        weatherImageSrc: mapOpenWeatherImageUrl(data.weather[0].icon),
+        weatherImageSrc: mapOpenWeatherDataToImageUrl(data),
       }
 
     case WEATHERSTACK:
       return {
         temperature: data.current.temperature.toFixed(1),
         weather: data.current.weather_descriptions[0],
-        weatherImageSrc: mapWeatherStackImageUrl(data),
+        weatherImageSrc: mapWeatherStackDataToImageUrl(data),
       }
 
     default:
