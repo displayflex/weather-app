@@ -9,6 +9,15 @@ import { YANDEX, OPEN_WEATHER, WEATHERSTACK, GEOCODEXYZ } from '@/constants/serv
 
 export const getServiceUrl = (service, ...args) => {
   let apikey
+  let latitude
+  let longitude
+  let cityName
+
+  if (args.length === 2) {
+    [latitude, longitude] = args
+  } else if (args.length === 1) {
+    [cityName] = args
+  }
 
   switch (service) {
     case WEATHERSTACK:
@@ -17,7 +26,7 @@ export const getServiceUrl = (service, ...args) => {
       return [
         `${URL_WEATHERSTACK_API}/current`,
         `?access_key=${apikey}`,
-        `&query=${args[0]},${args[1]}`,
+        `&query=${latitude},${longitude}`,
       ].join('')
 
     case OPEN_WEATHER:
@@ -25,8 +34,8 @@ export const getServiceUrl = (service, ...args) => {
 
       return [
         `${URL_OPENWEATHER_API}/data/2.5/weather`,
-        `?lat=${args[0]}`,
-        `&lon=${args[1]}`,
+        `?lat=${latitude}`,
+        `&lon=${longitude}`,
         '&units=metric',
         `&appid=${apikey}`,
       ].join('')
@@ -37,18 +46,15 @@ export const getServiceUrl = (service, ...args) => {
       return `${URL_YANDEX_API}/2.1/?lang=en_RU&amp;apikey=${apikey}`
 
     case GEOCODEXYZ:
-      //
-
       /**
        * apikey = process.env.REACT_APP_API_KEY_GEOCODEXYZ
        * Add &auth=${apikey} to the end of url to authorize.
        */
-      if (args.length === 2) {
-        return `${URL_GEOCODEXYZ}/${args[0]},${args[1]}?json=1`
-      } else if (args.length === 1) {
-        return `${URL_GEOCODEXYZ}/${args[0]}?json=1`
+      if (cityName) {
+        return `${URL_GEOCODEXYZ}/${cityName}?json=1`
       }
-      break
+
+      return `${URL_GEOCODEXYZ}/${latitude},${longitude}?json=1`
 
     default:
       return null

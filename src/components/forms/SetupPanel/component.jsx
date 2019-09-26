@@ -9,7 +9,7 @@ import Loader from '@/components/blocks/global/Loader'
 import Form from './styles'
 
 const SetupPanel = ({ cityName, cityInputValue, setWeatherData }) => {
-  const [isLoading, switchIsLoading] = useState(false)
+  const [isLoading, setLoading] = useState(false)
 
   const handleResultButtonClick = evt => {
     evt.preventDefault()
@@ -18,7 +18,7 @@ const SetupPanel = ({ cityName, cityInputValue, setWeatherData }) => {
       return
     }
 
-    switchIsLoading(true)
+    setLoading(true)
 
     if (cityInputValue !== cityName) {
       setWeatherData(cityInputValue)
