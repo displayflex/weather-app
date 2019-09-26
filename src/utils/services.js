@@ -9,6 +9,15 @@ import { YANDEX, OPEN_WEATHER, WEATHERSTACK, GEOCODEXYZ } from '@/constants/serv
 
 export const getServiceUrl = (service, ...args) => {
   let apikey
+  let latitude
+  let longitude
+  let cityName
+
+  if (args.length === 2) {
+    [latitude, longitude] = args
+  } else if (args.length === 1) {
+    [cityName] = args
+  }
 
   switch (service) {
     case WEATHERSTACK:
@@ -17,7 +26,7 @@ export const getServiceUrl = (service, ...args) => {
       return [
         `${URL_WEATHERSTACK_API}/current`,
         `?access_key=${apikey}`,
-        `&query=${args[0]},${args[1]}`,
+        `&query=${latitude},${longitude}`,
       ].join('')
 
     case OPEN_WEATHER:
@@ -25,8 +34,8 @@ export const getServiceUrl = (service, ...args) => {
 
       return [
         `${URL_OPENWEATHER_API}/data/2.5/weather`,
-        `?lat=${args[0]}`,
-        `&lon=${args[1]}`,
+        `?lat=${latitude}`,
+        `&lon=${longitude}`,
         '&units=metric',
         `&appid=${apikey}`,
       ].join('')
@@ -37,23 +46,23 @@ export const getServiceUrl = (service, ...args) => {
       return `${URL_YANDEX_API}/2.1/?lang=en_RU&amp;apikey=${apikey}`
 
     case GEOCODEXYZ:
-      apikey = process.env.REACT_APP_API_KEY_GEOCODEXYZ
-
-      if (args.length === 2) {
-        return `${URL_GEOCODEXYZ}/${args[0]},${args[1]}?json=1&auth=${apikey}`
-      } else if (args.length === 1) {
-        return `${URL_GEOCODEXYZ}/${args[0]}?json=1&auth=${apikey}`
+      /**
+       * apikey = process.env.REACT_APP_API_KEY_GEOCODEXYZ
+       * Add &auth=${apikey} to the end of url to authorize.
+       */
+      if (cityName) {
+        return `${URL_GEOCODEXYZ}/${cityName}?json=1`
       }
-      break
+
+      return `${URL_GEOCODEXYZ}/${latitude},${longitude}?json=1`
 
     default:
       return null
   }
 }
 
-// @todo recieve full data, not only iconId?
-const mapOpenWeatherImageUrl = iconId => {
-  // @todo name?
+const mapOpenWeatherDataToImageUrl = data => {
+  const iconId = data.weather[0].icon
   const iconList = {
     '01d': 'day',
     '01n': 'night',
@@ -80,9 +89,8 @@ const mapOpenWeatherImageUrl = iconId => {
   return `${URL_OPENWEATHER}/img/wn/${iconId}@2x.png`
 }
 
-const mapWeatherStackImageUrl = data => {
-  const [weather] = data.current.weather_descriptions
-  // @todo name?
+const mapWeatherStackDataToImageUrl = data => {
+  const [currentWeather] = data.current.weather_descriptions
   const weatherList = {
     Sunny: 'day',
     Clear: 'night',
@@ -90,6 +98,7 @@ const mapWeatherStackImageUrl = data => {
     Overcast: 'cloudy',
     Moderate: 'rainy-7',
     Rain: 'rainy-5',
+    Mist: 'rainy-4',
     'Rain Shower': 'rainy-7',
     'Partly cloudy': 'cloudy-day-1',
     'Light Rain Shower': 'rainy-4',
@@ -97,6 +106,9 @@ const mapWeatherStackImageUrl = data => {
     'Light Rain Shower, Rain Shower': 'rainy-4',
     'Moderate or heavy rain shower': 'rainy-7',
     'Heavy rain shower': 'rainy-7',
+    'Light Rain With Thunderstorm': 'thunder',
+    'Light Drizzle, Mist': 'rainy-4',
+    'Light Drizzle': 'rainy-4',
   }
 
   const commonWeatherList = {
@@ -107,14 +119,14 @@ const mapWeatherStackImageUrl = data => {
     snow: 'snowy-5',
   }
 
-  if (weather in weatherList) {
-    return `/icons/${weatherList[weather]}.svg`
-  } else if (Object.keys(commonWeatherList).indexOf(weather.toLowerCase()) !== -1) {
-    // @todo simplify it
-    const index = Object.keys(commonWeatherList).indexOf(weather.toLowerCase())
-    const key = commonWeatherList[index]
+  if (currentWeather in weatherList) {
+    return `/icons/${weatherList[currentWeather]}.svg`
+  }
 
-    return `/icons/${commonWeatherList[key]}.svg`
+  const weatherName = Object.keys(commonWeatherList).find(it => currentWeather.indexOf(it) !== -1)
+
+  if (weatherName) {
+    return `/icons/${commonWeatherList[weatherName]}.svg`
   }
 
   return data.current.weather_icons[0]
@@ -175,14 +187,14 @@ export const mapServiceData = (service, data) => {
       return {
         temperature: data.main.temp.toFixed(1),
         weather: data.weather[0].main,
-        weatherImageSrc: mapOpenWeatherImageUrl(data.weather[0].icon),
+        weatherImageSrc: mapOpenWeatherDataToImageUrl(data),
       }
 
     case WEATHERSTACK:
       return {
         temperature: data.current.temperature.toFixed(1),
         weather: data.current.weather_descriptions[0],
-        weatherImageSrc: mapWeatherStackImageUrl(data),
+        weatherImageSrc: mapWeatherStackDataToImageUrl(data),
       }
 
     default:

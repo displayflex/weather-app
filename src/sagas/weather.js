@@ -1,4 +1,5 @@
 import { call, put, takeEvery, select } from 'redux-saga/effects'
+import getHistory from 'react-router-global-history'
 
 import {
   setLocationData,
@@ -9,7 +10,7 @@ import {
 } from '@/actions/location'
 import { fetchServiceData } from '.'
 import { mapServiceData } from '@/utils/services'
-import { GEOCODEXYZ, SET_WEATHER_DATA } from '@/constants'
+import { GEOCODEXYZ, SET_WEATHER_DATA, WEATHER_PAGE_PATH } from '@/constants'
 
 const fetchCoordsFromCityNameApi = city => {
   return fetchServiceData(GEOCODEXYZ, city)
@@ -47,6 +48,8 @@ function * setWeatherDataSaga (action) {
   } catch (error) {
     yield put(setWeatherDataError())
   }
+
+  getHistory().push(WEATHER_PAGE_PATH)
 }
 
 function * watchSetWeatherData () {

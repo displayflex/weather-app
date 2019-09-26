@@ -1,26 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import { Redirect } from 'react-router-dom'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import CitySearchField from '@/components/forms/CitySearchField'
 import ServiceSelectField from '@/components/forms/ServiceSelectField'
 import PrimaryButton from '@/components/blocks/global/PrimaryButton'
 import Loader from '@/components/blocks/global/Loader'
-import { WEATHER_PAGE_PATH } from '@/constants/paths'
+
 import Form from './styles'
 
-const SetupPanel = ({
-  cityName,
-  cityInputValue,
-  isWeatherDataSet,
-  setWeatherData,
-  resetIsWeatherDataSet,
-}) => {
-  const [isLoading, switchIsLoading] = useState(false)
-
-  useEffect(() => {
-    resetIsWeatherDataSet()
-  })
+const SetupPanel = ({ cityName, cityInputValue, setWeatherData }) => {
+  const [isLoading, setLoading] = useState(false)
 
   const handleResultButtonClick = evt => {
     evt.preventDefault()
@@ -29,7 +18,7 @@ const SetupPanel = ({
       return
     }
 
-    switchIsLoading(prevIsLoading => !prevIsLoading)
+    setLoading(true)
 
     if (cityInputValue !== cityName) {
       setWeatherData(cityInputValue)
@@ -38,12 +27,8 @@ const SetupPanel = ({
     }
   }
 
-  if (isLoading && !isWeatherDataSet) {
+  if (isLoading) {
     return <Loader />
-  }
-
-  if (isWeatherDataSet) {
-    return <Redirect to={WEATHER_PAGE_PATH} />
   }
 
   return (
@@ -64,9 +49,7 @@ const SetupPanel = ({
 SetupPanel.propTypes = {
   cityName: PropTypes.string,
   cityInputValue: PropTypes.string,
-  isWeatherDataSet: PropTypes.bool.isRequired,
   setWeatherData: PropTypes.func.isRequired,
-  resetIsWeatherDataSet: PropTypes.func.isRequired,
 }
 
 export default SetupPanel

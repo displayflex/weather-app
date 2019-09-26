@@ -7,7 +7,6 @@ import {
   FETCH_COORDS_ERROR,
   FETCH_DATA_SUCCESS,
   FETCH_DATA_ERROR,
-  RESET_IS_WEATHER_DATA_SET,
 } from '@/constants/actions'
 
 const initialState = {
@@ -22,7 +21,6 @@ const initialState = {
   weatherImageSrc: '',
   data: null,
   isErrorInLoad: false,
-  isWeatherDataSet: false,
 }
 
 const location = (state = initialState, action) => {
@@ -44,7 +42,6 @@ const location = (state = initialState, action) => {
         temperature: action.payload.temperature,
         weather: action.payload.weather,
         weatherImageSrc: action.payload.weatherImageSrc,
-        isWeatherDataSet: true,
       }
 
     case SET_WEATHER_DATA_ERROR:
@@ -85,12 +82,6 @@ const location = (state = initialState, action) => {
       return {
         ...state,
         isErrorInLoad: true,
-      }
-
-    case RESET_IS_WEATHER_DATA_SET:
-      return {
-        ...state,
-        isWeatherDataSet: false,
       }
 
     default:

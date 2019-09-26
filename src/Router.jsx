@@ -1,5 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { ReactRouterGlobalHistory } from 'react-router-global-history'
 
 import Loader from '@/components/blocks/global/Loader'
 
@@ -11,6 +12,7 @@ const ErrorPage = React.lazy(() => import('@/components/pages/Error'))
 
 export default () => (
   <Router>
+    <ReactRouterGlobalHistory />
     <React.Suspense fallback={<Loader />}>
       <Switch>
         <Route exact path={SETUP_PAGE_PATH} component={SetupPage} />

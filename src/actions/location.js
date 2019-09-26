@@ -11,7 +11,6 @@ import {
   FETCH_DATA_FROM_COORDS,
   FETCH_DATA_SUCCESS,
   FETCH_DATA_ERROR,
-  RESET_IS_WEATHER_DATA_SET,
 } from '@/constants/actions'
 
 export const setLocationData = payload => ({
@@ -68,8 +67,4 @@ export const fetchDataSuccess = payload => ({
 
 export const fetchDataError = () => ({
   type: FETCH_DATA_ERROR,
-})
-
-export const resetIsWeatherDataSet = () => ({
-  type: RESET_IS_WEATHER_DATA_SET,
 })
