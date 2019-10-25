@@ -24,3 +24,7 @@ yarn-debug.log*
 yarn-error.log*
 
 __diff_output__
+
+/.firebase
+.firebaserc
+firebase.json

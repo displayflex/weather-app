@@ -8,7 +8,7 @@ import {
   fetchDataSuccess,
   setLocationData,
 } from '@/actions/location'
-import { GEOCODEXYZ, SET_LOCATION_PARAMS } from '@/constants'
+import { LOCATIONIQ, SET_LOCATION_PARAMS } from '@/constants'
 import { fetchServiceData } from '.'
 
 const fetchCoordsApi = () => {
@@ -30,7 +30,7 @@ const fetchCoordsApi = () => {
 }
 
 const fetchDataFromCoordsApi = (latitude, longitude) => {
-  return fetchServiceData(GEOCODEXYZ, latitude, longitude)
+  return fetchServiceData(LOCATIONIQ, latitude, longitude)
 }
 
 function * fetchCoordsSaga () {
@@ -50,10 +50,11 @@ function * fetchCoordsSaga () {
 
 function * fetchDataFromCoordsSaga (action) {
   try {
-    const response = yield call(fetchDataFromCoordsApi, [
+    const response = yield call(
+      fetchDataFromCoordsApi,
       action.payload.latitude,
-      action.payload.longitude,
-    ])
+      action.payload.longitude
+    )
     yield put(fetchDataSuccess(response))
   } catch (error) {
     yield put(fetchDataError())
@@ -64,7 +65,7 @@ function * setLocationParamsSaga () {
   yield * fetchCoordsSaga()
   const { latitude, longitude } = yield select(state => state.location.coords)
   yield * fetchDataFromCoordsSaga(fetchDataFromCoords({ latitude, longitude }))
-  const cityName = yield select(state => state.location.data.region)
+  const cityName = yield select(state => state.location.data.address.city)
   yield put(setLocationData({ latitude, longitude, cityName }))
 }
 

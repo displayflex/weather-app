@@ -3,9 +3,9 @@ import {
   URL_OPENWEATHER,
   URL_OPENWEATHER_API,
   URL_WEATHERSTACK_API,
-  URL_GEOCODEXYZ,
+  URL_LOCATIONIQ_API,
 } from '@/constants/endpoints'
-import { YANDEX, OPEN_WEATHER, WEATHERSTACK, GEOCODEXYZ } from '@/constants/services'
+import { YANDEX, OPEN_WEATHER, WEATHERSTACK, LOCATIONIQ } from '@/constants/services'
 
 export const getServiceUrl = (service, ...args) => {
   let apikey
@@ -45,16 +45,27 @@ export const getServiceUrl = (service, ...args) => {
 
       return `${URL_YANDEX_API}/2.1/?lang=en_RU&amp;apikey=${apikey}`
 
-    case GEOCODEXYZ:
-      /**
-       * apikey = process.env.REACT_APP_API_KEY_GEOCODEXYZ
-       * Add &auth=${apikey} to the end of url to authorize.
-       */
+    case LOCATIONIQ:
+      apikey = process.env.REACT_APP_API_KEY_LOCATIONIQ
+
       if (cityName) {
-        return `${URL_GEOCODEXYZ}/${cityName}?json=1`
+        return [
+          `${URL_LOCATIONIQ_API}/v1/search.php`,
+          `?key=${apikey}`,
+          `&city=${cityName}`,
+          '&format=json',
+          '&accept-language=en',
+        ].join('')
       }
 
-      return `${URL_GEOCODEXYZ}/${latitude},${longitude}?json=1`
+      return [
+        `${URL_LOCATIONIQ_API}/v1/reverse.php`,
+        `?key=${apikey}`,
+        `&lat=${latitude}`,
+        `&lon=${longitude}`,
+        '&format=json',
+        '&accept-language=en',
+      ].join('')
 
     default:
       return null

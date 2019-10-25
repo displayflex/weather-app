@@ -11,10 +11,10 @@ import {
 import { setDataToStorage } from '@/actions/storage'
 import { fetchServiceData } from '.'
 import { mapServiceData } from '@/utils/services'
-import { GEOCODEXYZ, SET_WEATHER_DATA, WEATHER_PAGE_PATH } from '@/constants'
+import { LOCATIONIQ, SET_WEATHER_DATA, WEATHER_PAGE_PATH } from '@/constants'
 
 const fetchCoordsFromCityNameApi = city => {
-  return fetchServiceData(GEOCODEXYZ, city)
+  return fetchServiceData(LOCATIONIQ, city)
 }
 
 function * fetchCoordsFromCityNameSaga (action) {
@@ -33,8 +33,8 @@ function * setWeatherDataSaga (action) {
   if (action.payload) {
     const cityName = action.payload
     yield * fetchCoordsFromCityNameSaga(cityName)
-    latitude = yield select(state => state.location.data.latt)
-    longitude = yield select(state => state.location.data.longt)
+    latitude = yield select(state => state.location.data[0].lat)
+    longitude = yield select(state => state.location.data[0].lon)
     yield put(setLocationData({ latitude, longitude, cityName }))
   } else {
     latitude = yield select(state => state.location.coords.latitude)

@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+
 import SetupPanel from '@/components/forms/SetupPanel/component'
 import { setWeatherData, showStoragedResult } from '@/actions/location'
 
