@@ -1,4 +1,4 @@
-// Place here Action types constants
+// Action types constants
 
 export const CHANGE_SERVICE = 'CHANGE_SERVICE'
 export const SET_LOCATION_DATA = 'SET_LOCATION_DATA'
@@ -13,3 +13,5 @@ export const FETCH_DATA_SUCCESS = 'FETCH_DATA_SUCCESS'
 export const FETCH_DATA_ERROR = 'FETCH_DATA_ERROR'
 export const FETCH_COORDS_SUCCESS = 'FETCH_COORDS_SUCCESS'
 export const FETCH_COORDS_ERROR = 'FETCH_COORDS_ERROR'
+export const SET_DATA_TO_STORAGE = 'SET_DATA_TO_STORAGE'
+export const SET_DATA_FROM_STORAGE = 'SET_DATA_FROM_STORAGE'

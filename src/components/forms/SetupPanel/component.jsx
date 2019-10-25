@@ -1,15 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import localforage from 'localforage'
 
 import CitySearchField from '@/components/forms/CitySearchField'
 import ServiceSelectField from '@/components/forms/ServiceSelectField'
 import PrimaryButton from '@/components/blocks/global/PrimaryButton'
 import Loader from '@/components/blocks/global/Loader'
+import { isCacheingTimeElapsed } from '@/utils/storage'
 
 import Form from './styles'
 
-const SetupPanel = ({ cityName, cityInputValue, setWeatherData }) => {
+const SetupPanel = ({ cityName, cityInputValue, setWeatherData, setDataFromStorage }) => {
   const [isLoading, setLoading] = useState(false)
+
+  useEffect(() => {
+    localforage.getItem('weatherAppData', (err, storageData) => {
+      console.log('STORAGE DATA', storageData)
+      if (err) {
+        return
+      }
+
+      if (storageData && !isCacheingTimeElapsed(storageData.clientDate)) {
+        setDataFromStorage(storageData)
+      }
+    })
+  })
 
   const handleResultButtonClick = evt => {
     evt.preventDefault()
@@ -50,6 +65,7 @@ SetupPanel.propTypes = {
   cityName: PropTypes.string,
   cityInputValue: PropTypes.string,
   setWeatherData: PropTypes.func.isRequired,
+  setDataFromStorage: PropTypes.func.isRequired,
 }
 
 export default SetupPanel

@@ -7,6 +7,7 @@ import {
   FETCH_COORDS_ERROR,
   FETCH_DATA_SUCCESS,
   FETCH_DATA_ERROR,
+  SET_DATA_FROM_STORAGE,
 } from '@/constants/actions'
 
 const initialState = {
@@ -82,6 +83,15 @@ const location = (state = initialState, action) => {
       return {
         ...state,
         isErrorInLoad: true,
+      }
+
+    case SET_DATA_FROM_STORAGE:
+      return {
+        ...state,
+        cityName: action.payload.cityName,
+        temperature: action.payload.temperature,
+        weather: action.payload.weather,
+        weatherImageSrc: action.payload.weatherImageSrc,
       }
 
     default:

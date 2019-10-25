@@ -1,15 +1,15 @@
-import { put, takeEvery, select, call } from 'redux-saga/effects'
+import { call, put, select, takeEvery } from 'redux-saga/effects'
 
 import {
-  setLocationData,
-  fetchCoordsSuccess,
   fetchCoordsError,
-  fetchDataSuccess,
+  fetchCoordsSuccess,
   fetchDataError,
   fetchDataFromCoords,
+  fetchDataSuccess,
+  setLocationData,
 } from '@/actions/location'
+import { GEOCODEXYZ, SET_LOCATION_PARAMS } from '@/constants'
 import { fetchServiceData } from '.'
-import { SET_LOCATION_PARAMS, GEOCODEXYZ } from '@/constants'
 
 const fetchCoordsApi = () => {
   return new Promise((resolve, reject) => {

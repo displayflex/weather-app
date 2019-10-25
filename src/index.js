@@ -8,4 +8,7 @@ import App from '@/App'
 
 ReactDOM.render(<App />, document.getElementById('root'))
 
-serviceWorker.register()
+/**
+ * Swith serviceWorker.register() to enable service worker
+ */
+serviceWorker.unregister()
