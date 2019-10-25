@@ -4,7 +4,7 @@ import { getServiceUrl } from '@/utils/services'
 import watchChangeCityInput from './input'
 import watchSetLocationParams from './location'
 import watchSetWeatherData from './weather'
-import watchSetDataToStorage from './storage'
+import { watchSetDataToStorage, watchShowStoragedResult } from './storage'
 
 export const fetchServiceData = async (service, ...args) => {
   const url = getServiceUrl(service, ...args)
@@ -27,5 +27,6 @@ export default function * () {
     watchChangeCityInput(),
     watchSetWeatherData(),
     watchSetDataToStorage(),
+    watchShowStoragedResult(),
   ])
 }

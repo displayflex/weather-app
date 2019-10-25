@@ -10,7 +10,7 @@ import { isCacheingTimeElapsed } from '@/utils/storage'
 
 import Form from './styles'
 
-const SetupPanel = ({ cityName, cityInputValue, setWeatherData, setDataFromStorage }) => {
+const SetupPanel = ({ cityName, cityInputValue, setWeatherData, showStoragedResult }) => {
   const [isLoading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const SetupPanel = ({ cityName, cityInputValue, setWeatherData, setDataFromStora
       }
 
       if (storageData && !isCacheingTimeElapsed(storageData.clientDate)) {
-        setDataFromStorage(storageData)
+        showStoragedResult(storageData)
       }
     })
   })
@@ -65,7 +65,7 @@ SetupPanel.propTypes = {
   cityName: PropTypes.string,
   cityInputValue: PropTypes.string,
   setWeatherData: PropTypes.func.isRequired,
-  setDataFromStorage: PropTypes.func.isRequired,
+  showStoragedResult: PropTypes.func.isRequired,
 }
 
 export default SetupPanel

@@ -12,6 +12,7 @@ import {
   FETCH_DATA_SUCCESS,
   FETCH_DATA_ERROR,
   SET_DATA_FROM_STORAGE,
+  SHOW_STORAGED_RESULT,
 } from '@/constants/actions'
 
 export const setLocationData = payload => ({
@@ -73,4 +74,9 @@ export const fetchDataError = () => ({
 export const setDataFromStorage = payload => ({
   payload,
   type: SET_DATA_FROM_STORAGE,
+})
+
+export const showStoragedResult = payload => ({
+  payload,
+  type: SHOW_STORAGED_RESULT,
 })

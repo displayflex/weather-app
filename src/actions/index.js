@@ -1,3 +1,3 @@
 export * from './services'
 export * from './location'
-export * from './loading'
+export * from './storage'
