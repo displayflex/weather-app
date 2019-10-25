@@ -50,7 +50,7 @@ function * setWeatherDataSaga (action) {
     yield put(setWeatherDataError())
   }
 
-  yield put(setDataToStorage()) // @todo ????
+  yield put(setDataToStorage())
 
   getHistory().push(WEATHER_PAGE_PATH)
 }

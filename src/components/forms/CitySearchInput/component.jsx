@@ -1,24 +1,27 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { DebounceInput } from 'react-debounce-input'
 
 import Input from './styles'
 
 const CitySearchInput = ({ cityName, changeCityInput }) => {
-  const inputEl = useRef(null)
+  const [inputValue, setInputValue] = useState(cityName || '')
   useEffect(() => {
-    changeCityInput(inputEl.current.input.value)
+    changeCityInput(inputValue)
   })
 
   const handleInputChange = evt => {
-    changeCityInput(evt.target.value)
+    setInputValue(evt.target.value)
   }
 
   return (
-    <Input
-      ref={inputEl}
+    <DebounceInput
+      element={Input}
+      debounceTimeout={300}
       placeholder="Type your city here..."
       onChange={handleInputChange}
-      defaultValue={cityName} />
+      defaultValue={cityName}
+      value={inputValue} />
   )
 }
 
