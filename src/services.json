@@ -1,10 +1,17 @@
 [
   {
     "id": "OPEN_WEATHER",
-    "name": "Open Weather"
+    "name": "Open Weather",
+    "isDisabled": false
+  },
+  {
+    "id": "WEATHERBIT",
+    "name": "Weatherbit",
+    "isDisabled": false
   },
   {
     "id": "WEATHERSTACK",
-    "name": "Weatherstack"
+    "name": "Weatherstack",
+    "isDisabled": true
   }
 ]

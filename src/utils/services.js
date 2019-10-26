@@ -4,8 +4,10 @@ import {
   URL_OPENWEATHER_API,
   URL_WEATHERSTACK_API,
   URL_LOCATIONIQ_API,
+  URL_WEATHERBIT_API,
+  URL_WEATHERBIT,
 } from '@/constants/endpoints'
-import { YANDEX, OPEN_WEATHER, WEATHERSTACK, LOCATIONIQ } from '@/constants/services'
+import { YANDEX, OPEN_WEATHER, WEATHERSTACK, LOCATIONIQ, WEATHERBIT } from '@/constants/services'
 
 export const getServiceUrl = (service, ...args) => {
   let apikey
@@ -27,6 +29,17 @@ export const getServiceUrl = (service, ...args) => {
         `${URL_WEATHERSTACK_API}/current`,
         `?access_key=${apikey}`,
         `&query=${latitude},${longitude}`,
+      ].join('')
+
+    case WEATHERBIT:
+      apikey = process.env.REACT_APP_API_KEY_WEATHERBIT
+
+      return [
+        `${URL_WEATHERBIT_API}/current`,
+        `?key=${apikey}`,
+        '&lang=en',
+        `&lat=${latitude}`,
+        `&lon=${longitude}`,
       ].join('')
 
     case OPEN_WEATHER:
@@ -143,6 +156,72 @@ const mapWeatherStackDataToImageUrl = data => {
   return data.current.weather_icons[0]
 }
 
+const mapWeatherbitDataToImageUrl = data => {
+  const weatherCode = data.data[0].weather.code
+  const iconId = data.data[0].weather.icon
+
+  const codeList = {
+    200: 'thunder',
+    201: 'thunder',
+    202: 'thunder',
+    230: 'thunder',
+    231: 'thunder',
+    232: 'thunder',
+    233: 'thunder',
+    300: 'rainy-4',
+    301: 'rainy-5',
+    302: 'rainy-6',
+    500: 'rainy-5',
+    501: 'rainy-6',
+    502: 'rainy-7',
+    511: 'rainy-6',
+    520: 'rainy-5',
+    521: 'rainy-6',
+    522: 'rainy-7',
+    600: 'snowy-4',
+    601: 'snowy-5',
+    602: 'snowy-6',
+    610: 'snowy-5',
+    611: 'snowy-4',
+    612: 'snowy-5',
+    621: 'snowy-6',
+    622: 'snowy-6',
+    623: 'snowy-6',
+    700: 'cloudy',
+    711: 'cloudy',
+    721: 'cloudy',
+    731: 'cloudy',
+    741: 'cloudy',
+    751: 'cloudy',
+    800: 'day',
+    801: 'cloudy-day-1',
+    802: 'cloudy-day-2',
+    803: 'cloudy-day-3',
+    804: 'cloudy',
+    900: 'rainy-6',
+  }
+
+  const iconList = {
+    c01d: 'day',
+    c01n: 'night',
+    c02d: 'cloudy-day-1',
+    c02n: 'cloudy-night-1',
+    c03d: 'cloudy-day-3',
+    c03n: 'cloudy-night-3',
+    r05d: 'rainy-3',
+    s01d: 'snowy-2',
+    s04d: 'snowy-1',
+  }
+
+  if (iconId in iconList) {
+    return `/icons/${iconList[iconId]}.svg`
+  } else if (weatherCode in codeList) {
+    return `/icons/${codeList[weatherCode]}.svg`
+  }
+
+  return `${URL_WEATHERBIT}/static/img/icons/${iconId}.png`
+}
+
 const isRecievedDataInvalid = (service, data) => {
   switch (service) {
     case OPEN_WEATHER:
@@ -179,6 +258,13 @@ const isRecievedDataInvalid = (service, data) => {
 
       return false
 
+    case WEATHERBIT:
+      if ('error' in data) {
+        return true
+      }
+
+      return false
+
     default:
       return false
   }
@@ -206,6 +292,13 @@ export const mapServiceData = (service, data) => {
         temperature: data.current.temperature.toFixed(1),
         weather: data.current.weather_descriptions[0],
         weatherImageSrc: mapWeatherStackDataToImageUrl(data),
+      }
+
+    case WEATHERBIT:
+      return {
+        temperature: data.data[0].app_temp.toFixed(1),
+        weather: data.data[0].weather.description,
+        weatherImageSrc: mapWeatherbitDataToImageUrl(data),
       }
 
     default:

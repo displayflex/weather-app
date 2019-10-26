@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import Select from '@/components/blocks/global/Select'
 import allServices from '@/services.json'
+
 import Wrapper, { ServiceSelectLabel } from './styles'
 
 const ServiceSelectField = ({ currentService, changeService }) => {
@@ -25,7 +26,7 @@ const ServiceSelectField = ({ currentService, changeService }) => {
         onChange={value => handleServiceChange(value)}
       >
         {allServices.map(service => (
-          <Option key={service.id} value={service.id}>
+          <Option key={service.id} value={service.id} disabled={service.isDisabled}>
             {service.name}
           </Option>
         ))}
