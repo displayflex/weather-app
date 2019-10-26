@@ -33,9 +33,17 @@ function * setWeatherDataSaga (action) {
   if (action.payload) {
     const cityName = action.payload
     yield * fetchCoordsFromCityNameSaga(cityName)
-    latitude = yield select(state => state.location.data[0].lat)
-    longitude = yield select(state => state.location.data[0].lon)
-    yield put(setLocationData({ latitude, longitude, cityName }))
+    const locationData = yield select(state => state.location.data)
+
+    if ('error' in locationData) {
+      getHistory().push(WEATHER_PAGE_PATH)
+
+      return
+    } else {
+      latitude = yield select(state => state.location.data[0].lat)
+      longitude = yield select(state => state.location.data[0].lon)
+      yield put(setLocationData({ latitude, longitude, cityName }))
+    }
   } else {
     latitude = yield select(state => state.location.coords.latitude)
     longitude = yield select(state => state.location.coords.longitude)

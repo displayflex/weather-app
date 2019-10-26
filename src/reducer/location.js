@@ -22,6 +22,7 @@ const initialState = {
   weatherImageSrc: '',
   data: null,
   isErrorInLoad: false,
+  isStorageDataRecieved: false,
 }
 
 const location = (state = initialState, action) => {
@@ -92,6 +93,7 @@ const location = (state = initialState, action) => {
         temperature: action.payload.temperature,
         weather: action.payload.weather,
         weatherImageSrc: action.payload.weatherImageSrc,
+        isStorageDataRecieved: true,
       }
 
     default:

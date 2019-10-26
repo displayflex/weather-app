@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import localforage from 'localforage'
@@ -8,24 +8,10 @@ import WeatherWidget from '@/components/blocks/WeatherWidget'
 import SecondaryButton from '@/components/blocks/global/SecondaryButton'
 import { SETUP_PAGE_PATH } from '@/constants/paths'
 import ErrorParagraph from '@/components/blocks/global/ErrorParagraph'
-import { isCacheingTimeElapsed } from '@/utils/storage'
 
 import Wrapper from './styles'
 
-const WeatherPanel = ({ temperature, weather, showStoragedResult }) => {
-  useEffect(() => {
-    localforage.getItem('weatherAppData', (err, storageData) => {
-      console.log('STORAGE DATA', storageData)
-      if (err) {
-        return
-      }
-
-      if (storageData && !isCacheingTimeElapsed(storageData.clientDate)) {
-        showStoragedResult(storageData)
-      }
-    })
-  })
-
+const WeatherPanel = ({ temperature, weather }) => {
   const handleSetupButtonClick = () => {
     localforage.removeItem('weatherAppData')
   }
@@ -61,7 +47,6 @@ WeatherPanel.propTypes = {
     PropTypes.oneOf([null]).isRequired,
   ]),
   weather: PropTypes.string,
-  showStoragedResult: PropTypes.func.isRequired,
 }
 
 export default WeatherPanel

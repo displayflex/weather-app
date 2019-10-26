@@ -20,9 +20,11 @@ function * setDataToStorageSaga () {
 }
 
 function * showStoragedResultSaga (action) {
-  yield put(setDataFromStorage(action.payload))
+  yield put(setDataFromStorage(action.payload.storageData))
 
-  getHistory().push(WEATHER_PAGE_PATH)
+  if (action.payload.withRedirect) {
+    getHistory().push(WEATHER_PAGE_PATH)
+  }
 }
 
 function * watchSetDataToStorage () {

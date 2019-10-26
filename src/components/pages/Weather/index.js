@@ -1,3 +1,3 @@
-import WeatherPage from './component'
+import WeatherPage from './container'
 
 export default WeatherPage

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 
 import SetupPanel from '@/components/forms/SetupPanel/component'
-import { setWeatherData, showStoragedResult } from '@/actions/location'
+import { setWeatherData } from '@/actions/location'
 
 const mapStateToProps = state => ({
   cityName: state.location.cityName,
@@ -10,7 +10,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   setWeatherData: payload => dispatch(setWeatherData(payload)),
-  showStoragedResult: payload => dispatch(showStoragedResult(payload)),
 })
 
 export default connect(
