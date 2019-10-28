@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
 import localforage from 'localforage'
 
-import StandardLayout from '@/components/layouts/Standard'
 import SetupPanel from '@/components/forms/SetupPanel'
 import Loader from '@/components/blocks/global/Loader'
 import ErrorParagraph from '@/components/blocks/global/ErrorParagraph'
@@ -53,13 +52,11 @@ class SetupPage extends Component {
   }
 
   render () {
-    let content
-
     if (this.state.isCheckingStorage) {
-      content = <Loader />
-
-      return <StandardLayout>{content}</StandardLayout>
+      return <Loader />
     }
+
+    let content
 
     if (this.state.isScriptLoadedWithError || this.props.isErrorInLoad) {
       const message = 'Something went wrong.'
@@ -73,7 +70,7 @@ class SetupPage extends Component {
         <Helmet onChangeClientState={(newState, addedTags) => this.handleScriptInject(addedTags)}>
           <script src={getServiceUrl(YANDEX)} />
         </Helmet>
-        <StandardLayout>{content}</StandardLayout>
+        {content}
       </>
     )
   }

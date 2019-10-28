@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import localforage from 'localforage'
 
-import StandardLayout from '@/components/layouts/Standard'
 import WeatherPanel from '@/components/blocks/WeatherPanel'
 import { isCacheingTimeElapsed } from '@/utils/storage'
 import Loader from '@/components/blocks/global/Loader'
@@ -31,7 +30,7 @@ const WeatherPage = ({ isStorageDataRecieved, showStoragedResult }) => {
 
   const content = isStorageDataRecieved || !isCheckingStorage ? <WeatherPanel /> : <Loader />
 
-  return <StandardLayout>{content}</StandardLayout>
+  return content
 }
 
 WeatherPage.propTypes = {
