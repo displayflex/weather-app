@@ -25,7 +25,7 @@ const initialState = {
     wind: null,
     humidity: null,
   },
-  data: null,
+  data: {},
   isErrorInLoad: false,
   isStorageDataRecieved: false,
 }

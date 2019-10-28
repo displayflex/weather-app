@@ -9,6 +9,7 @@ import {
   setWeatherDataError,
 } from '@/actions/location'
 import { setDataToStorage } from '@/actions/storage'
+import { setServiceData } from '@/actions/services'
 import { fetchServiceData } from '.'
 import { mapServiceData } from '@/utils/services'
 import { LOCATIONIQ, SET_WEATHER_DATA, WEATHER_PAGE_PATH } from '@/constants'
@@ -55,6 +56,7 @@ function * setWeatherDataSaga (action) {
 
   try {
     const data = yield call(fetchServiceData, service, latitude, longitude)
+    yield put(setServiceData(data))
     yield put(setWeatherDataSuccess(mapServiceData(service, data)))
   } catch (error) {
     yield put(setWeatherDataError())
