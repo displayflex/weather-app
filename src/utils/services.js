@@ -285,6 +285,9 @@ export const mapServiceData = (service, data) => {
         temperature: data.main.temp.toFixed(1),
         weather: data.weather[0].main,
         weatherImageSrc: mapOpenWeatherDataToImageUrl(data),
+        pressure: data.main.pressure.toFixed(0),
+        wind: data.wind.speed.toFixed(0),
+        humidity: data.main.humidity.toFixed(0),
       }
 
     case WEATHERSTACK:
@@ -299,6 +302,9 @@ export const mapServiceData = (service, data) => {
         temperature: data.data[0].app_temp.toFixed(1),
         weather: data.data[0].weather.description,
         weatherImageSrc: mapWeatherbitDataToImageUrl(data),
+        pressure: data.data[0].pres.toFixed(0),
+        wind: data.data[0].wind_spd.toFixed(0),
+        humidity: data.data[0].rh.toFixed(0),
       }
 
     default:

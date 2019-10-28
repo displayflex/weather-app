@@ -20,6 +20,9 @@ const initialState = {
   temperature: null,
   weather: '',
   weatherImageSrc: '',
+  pressure: null,
+  wind: null,
+  humidity: null,
   data: null,
   isErrorInLoad: false,
   isStorageDataRecieved: false,
@@ -44,6 +47,9 @@ const location = (state = initialState, action) => {
         temperature: action.payload.temperature,
         weather: action.payload.weather,
         weatherImageSrc: action.payload.weatherImageSrc,
+        pressure: action.payload.pressure,
+        wind: action.payload.wind,
+        humidity: action.payload.humidity,
       }
 
     case SET_WEATHER_DATA_ERROR:
@@ -93,6 +99,9 @@ const location = (state = initialState, action) => {
         temperature: action.payload.temperature,
         weather: action.payload.weather,
         weatherImageSrc: action.payload.weatherImageSrc,
+        pressure: action.payload.pressure,
+        wind: action.payload.wind,
+        humidity: action.payload.humidity,
         isStorageDataRecieved: true,
       }
 

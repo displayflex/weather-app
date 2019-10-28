@@ -6,7 +6,15 @@ import { SET_DATA_TO_STORAGE, SHOW_STORAGED_RESULT, WEATHER_PAGE_PATH } from '@/
 import { setDataFromStorage } from '@/actions'
 
 function * setDataToStorageSaga () {
-  const { cityName, temperature, weather, weatherImageSrc } = yield select(state => state.location)
+  const {
+    cityName,
+    temperature,
+    weather,
+    weatherImageSrc,
+    pressure,
+    wind,
+    humidity,
+  } = yield select(state => state.location)
   const clientDate = Date.now()
   const clientData = {
     clientDate,
@@ -14,6 +22,9 @@ function * setDataToStorageSaga () {
     temperature,
     weather,
     weatherImageSrc,
+    pressure,
+    wind,
+    humidity,
   }
 
   localforage.setItem('weatherAppData', clientData)
