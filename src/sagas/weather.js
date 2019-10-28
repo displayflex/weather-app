@@ -36,13 +36,8 @@ function * setWeatherDataSaga (action) {
     const locationData = yield select(state => state.location.data)
 
     if ('error' in locationData) {
-      yield put(
-        setWeatherDataSuccess({
-          temperature: null,
-          weather: '',
-          weatherImageSrc: '',
-        })
-      )
+      const emptyData = mapServiceData()
+      yield put(setWeatherDataSuccess(emptyData))
       getHistory().push(WEATHER_PAGE_PATH)
 
       return

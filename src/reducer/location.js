@@ -17,12 +17,14 @@ const initialState = {
     latitude: null,
     longitude: null,
   },
-  temperature: null,
-  weather: '',
-  weatherImageSrc: '',
-  pressure: null,
-  wind: null,
-  humidity: null,
+  weather: {
+    temperature: null,
+    description: '',
+    weatherImageSrc: '',
+    pressure: null,
+    wind: null,
+    humidity: null,
+  },
   data: null,
   isErrorInLoad: false,
   isStorageDataRecieved: false,
@@ -44,12 +46,15 @@ const location = (state = initialState, action) => {
     case SET_WEATHER_DATA_SUCCESS:
       return {
         ...state,
-        temperature: action.payload.temperature,
-        weather: action.payload.weather,
-        weatherImageSrc: action.payload.weatherImageSrc,
-        pressure: action.payload.pressure,
-        wind: action.payload.wind,
-        humidity: action.payload.humidity,
+        weather: {
+          ...state.weather,
+          temperature: action.payload.temperature,
+          description: action.payload.description,
+          weatherImageSrc: action.payload.weatherImageSrc,
+          pressure: action.payload.pressure,
+          wind: action.payload.wind,
+          humidity: action.payload.humidity,
+        },
       }
 
     case SET_WEATHER_DATA_ERROR:
@@ -96,12 +101,10 @@ const location = (state = initialState, action) => {
       return {
         ...state,
         cityName: action.payload.cityName,
-        temperature: action.payload.temperature,
-        weather: action.payload.weather,
-        weatherImageSrc: action.payload.weatherImageSrc,
-        pressure: action.payload.pressure,
-        wind: action.payload.wind,
-        humidity: action.payload.humidity,
+        weather: {
+          ...state.weather,
+          ...action.payload.weather,
+        },
         isStorageDataRecieved: true,
       }
 

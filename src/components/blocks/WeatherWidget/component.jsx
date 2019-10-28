@@ -14,59 +14,72 @@ import Wrapper, {
   AdditionalInfoRate,
 } from './styles'
 
-const WeatherWidget = ({ temperature, weather, weatherImageSrc, pressure, wind, humidity }) => (
-  <Wrapper>
-    <MainInfo>
-      <WeatherInfoWrapper>
-        <Temperature>{temperature} &#176; c</Temperature>
-        <WeatherDescription>{weather}</WeatherDescription>
-      </WeatherInfoWrapper>
-      <WeatherImage src={weatherImageSrc} alt={weather} />
-    </MainInfo>
+const WeatherWidget = props => {
+  const {
+    temperature,
+    description: weatherDescription,
+    weatherImageSrc,
+    pressure,
+    wind,
+    humidity,
+  } = props.weather
 
-    <AdditionalInfoList>
-      <AdditionalInfoItem>
-        <AdditionalInfoHeader>Pressure, mmHg</AdditionalInfoHeader>
-        <AdditionalInfoIcon type="dashboard" />
-        <AdditionalInfoRate>{pressure}</AdditionalInfoRate>
-      </AdditionalInfoItem>
-      <AdditionalInfoItem>
-        <AdditionalInfoHeader>Wind, m/s</AdditionalInfoHeader>
-        <AdditionalInfoIcon type="align-right" />
-        <AdditionalInfoRate>{wind}</AdditionalInfoRate>
-      </AdditionalInfoItem>
-      <AdditionalInfoItem>
-        <AdditionalInfoHeader>Humidity, %</AdditionalInfoHeader>
-        <AdditionalInfoIcon type="experiment" />
-        <AdditionalInfoRate>{humidity}</AdditionalInfoRate>
-      </AdditionalInfoItem>
-    </AdditionalInfoList>
-  </Wrapper>
-)
+  return (
+    <Wrapper>
+      <MainInfo>
+        <WeatherInfoWrapper>
+          <Temperature>{temperature} &#176; c</Temperature>
+          <WeatherDescription>{weatherDescription}</WeatherDescription>
+        </WeatherInfoWrapper>
+        <WeatherImage src={weatherImageSrc} alt={weatherDescription} />
+      </MainInfo>
+
+      <AdditionalInfoList>
+        <AdditionalInfoItem>
+          <AdditionalInfoHeader>Pressure, mmHg</AdditionalInfoHeader>
+          <AdditionalInfoIcon type="dashboard" />
+          <AdditionalInfoRate>{pressure}</AdditionalInfoRate>
+        </AdditionalInfoItem>
+        <AdditionalInfoItem>
+          <AdditionalInfoHeader>Wind, m/s</AdditionalInfoHeader>
+          <AdditionalInfoIcon type="align-right" />
+          <AdditionalInfoRate>{wind}</AdditionalInfoRate>
+        </AdditionalInfoItem>
+        <AdditionalInfoItem>
+          <AdditionalInfoHeader>Humidity, %</AdditionalInfoHeader>
+          <AdditionalInfoIcon type="experiment" />
+          <AdditionalInfoRate>{humidity}</AdditionalInfoRate>
+        </AdditionalInfoItem>
+      </AdditionalInfoList>
+    </Wrapper>
+  )
+}
 
 WeatherWidget.propTypes = {
-  temperature: PropTypes.oneOfType([
-    PropTypes.string.isRequired,
-    PropTypes.number.isRequired,
-    PropTypes.oneOf([null]).isRequired,
-  ]),
-  pressure: PropTypes.oneOfType([
-    PropTypes.string.isRequired,
-    PropTypes.number.isRequired,
-    PropTypes.oneOf([null]).isRequired,
-  ]),
-  wind: PropTypes.oneOfType([
-    PropTypes.string.isRequired,
-    PropTypes.number.isRequired,
-    PropTypes.oneOf([null]).isRequired,
-  ]),
-  humidity: PropTypes.oneOfType([
-    PropTypes.string.isRequired,
-    PropTypes.number.isRequired,
-    PropTypes.oneOf([null]).isRequired,
-  ]),
-  weather: PropTypes.string.isRequired,
-  weatherImageSrc: PropTypes.string,
+  weather: PropTypes.shape({
+    temperature: PropTypes.oneOfType([
+      PropTypes.string.isRequired,
+      PropTypes.number.isRequired,
+      PropTypes.oneOf([null]).isRequired,
+    ]),
+    pressure: PropTypes.oneOfType([
+      PropTypes.string.isRequired,
+      PropTypes.number.isRequired,
+      PropTypes.oneOf([null]).isRequired,
+    ]),
+    wind: PropTypes.oneOfType([
+      PropTypes.string.isRequired,
+      PropTypes.number.isRequired,
+      PropTypes.oneOf([null]).isRequired,
+    ]),
+    humidity: PropTypes.oneOfType([
+      PropTypes.string.isRequired,
+      PropTypes.number.isRequired,
+      PropTypes.oneOf([null]).isRequired,
+    ]),
+    description: PropTypes.string.isRequired,
+    weatherImageSrc: PropTypes.string,
+  }).isRequired,
 }
 
 export default WeatherWidget

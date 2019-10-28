@@ -266,24 +266,29 @@ const isRecievedDataInvalid = (service, data) => {
       return false
 
     default:
-      return false
+      return true
   }
 }
 
-export const mapServiceData = (service, data) => {
+export const mapServiceData = (service = '', data = {}) => {
+  const emptyData = {
+    temperature: null,
+    description: '',
+    weatherImageSrc: '',
+    pressure: null,
+    wind: null,
+    humidity: null,
+  }
+
   if (isRecievedDataInvalid(service, data)) {
-    return {
-      temperature: null,
-      weather: '',
-      weatherImageSrc: '',
-    }
+    return emptyData
   }
 
   switch (service) {
     case OPEN_WEATHER:
       return {
         temperature: data.main.temp.toFixed(1),
-        weather: data.weather[0].main,
+        description: data.weather[0].main,
         weatherImageSrc: mapOpenWeatherDataToImageUrl(data),
         pressure: data.main.pressure.toFixed(0),
         wind: data.wind.speed.toFixed(0),
@@ -293,14 +298,14 @@ export const mapServiceData = (service, data) => {
     case WEATHERSTACK:
       return {
         temperature: data.current.temperature.toFixed(1),
-        weather: data.current.weather_descriptions[0],
+        description: data.current.weather_descriptions[0],
         weatherImageSrc: mapWeatherStackDataToImageUrl(data),
       }
 
     case WEATHERBIT:
       return {
         temperature: data.data[0].app_temp.toFixed(1),
-        weather: data.data[0].weather.description,
+        description: data.data[0].weather.description,
         weatherImageSrc: mapWeatherbitDataToImageUrl(data),
         pressure: data.data[0].pres.toFixed(0),
         wind: data.data[0].wind_spd.toFixed(0),
@@ -308,6 +313,6 @@ export const mapServiceData = (service, data) => {
       }
 
     default:
-      break
+      return emptyData
   }
 }

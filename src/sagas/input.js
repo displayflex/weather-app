@@ -1,4 +1,4 @@
-import { put, throttle } from 'redux-saga/effects'
+import { put, takeEvery } from 'redux-saga/effects'
 
 import { setCityInputValue } from '@/actions/location'
 import { CHANGE_CITY_INPUT } from '@/constants'
@@ -8,7 +8,7 @@ function * handleInputChangeSaga (action) {
 }
 
 function * watchChangeCityInput () {
-  yield throttle(500, CHANGE_CITY_INPUT, handleInputChangeSaga)
+  yield takeEvery(CHANGE_CITY_INPUT, handleInputChangeSaga)
 }
 
 export default watchChangeCityInput

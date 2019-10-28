@@ -11,14 +11,14 @@ import ErrorParagraph from '@/components/blocks/global/ErrorParagraph'
 
 import Wrapper from './styles'
 
-const WeatherPanel = ({ temperature, weather }) => {
+const WeatherPanel = ({ temperature, weatherDescription }) => {
   const handleSetupButtonClick = () => {
     localforage.removeItem('weatherAppData')
   }
 
   let content
 
-  if (!temperature && !weather) {
+  if (!temperature && !weatherDescription) {
     const errorMessage = 'There is no data for your city. Try to change the setup.'
     content = <ErrorParagraph message={errorMessage} />
   } else {
@@ -46,7 +46,7 @@ WeatherPanel.propTypes = {
     PropTypes.number.isRequired,
     PropTypes.oneOf([null]).isRequired,
   ]),
-  weather: PropTypes.string,
+  weatherDescription: PropTypes.string,
 }
 
 export default WeatherPanel
